@@ -1,0 +1,6 @@
+{
+  "name": "Infinity Club Holidays",
+  "description": "Professional travel planning and booking for unforgettable local and international holidays, backed by 21 years of industry experience.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
