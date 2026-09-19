@@ -74,7 +74,7 @@ export default function FloatingWhatsApp({ onOpenQuoteModal }: FloatingWhatsAppP
           </a>
 
           <a
-            href={`tel:${BUSINESS_INFO.phone}`}
+            href={`tel:${BUSINESS_INFO.phoneTel}`}
             className="flex flex-col items-center justify-center py-2 px-1 rounded-xl bg-slate-900 text-white text-xs font-bold active:scale-95 transition-all"
           >
             <Phone className="w-4 h-4 mb-0.5 text-cyan-400" />

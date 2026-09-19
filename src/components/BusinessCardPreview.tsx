@@ -42,7 +42,7 @@ export default function BusinessCardPreview() {
                   Contact
                 </div>
                 <a
-                  href={`tel:${BUSINESS_INFO.phone}`}
+                  href={`tel:${BUSINESS_INFO.phoneTel}`}
                   className="flex items-center gap-2 text-sm font-semibold text-slate-800 hover:text-purple-600 transition-colors"
                 >
                   <Phone className="w-3.5 h-3.5 text-purple-600" />

@@ -33,7 +33,7 @@ export default function Navbar({ onOpenQuoteModal }: NavbarProps) {
   ];
 
   return (
-    <header className="sticky top-0 z-40 w-full">
+    <header id="top" className="sticky top-0 z-40 w-full">
       {/* Top Utility Bar */}
       <div className="bg-slate-900 text-slate-300 text-xs py-2 px-4 border-b border-slate-800">
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
@@ -52,7 +52,7 @@ export default function Navbar({ onOpenQuoteModal }: NavbarProps) {
 
           <div className="flex items-center gap-4">
             <a
-              href={`tel:${BUSINESS_INFO.phone}`}
+              href={`tel:${BUSINESS_INFO.phoneTel}`}
               className="inline-flex items-center gap-1.5 hover:text-white font-medium transition-colors"
             >
               <Phone className="w-3.5 h-3.5 text-purple-400" />
@@ -84,7 +84,15 @@ export default function Navbar({ onOpenQuoteModal }: NavbarProps) {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
           
           {/* Brand Logo link */}
-          <a href="#" className="flex items-center gap-2 group">
+          <a
+            href="#top"
+            onClick={(e) => {
+              e.preventDefault();
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
+            className="flex items-center gap-2 group cursor-pointer"
+            aria-label="Infinity Club Holidays - Return to top"
+          >
             <BrandLogo size="md" />
           </a>
 

@@ -84,7 +84,7 @@ export default function ContactSection() {
                     Phone & WhatsApp Direct Line
                   </div>
                   <a
-                    href={`tel:${BUSINESS_INFO.phone}`}
+                    href={`tel:${BUSINESS_INFO.phoneTel}`}
                     className="text-lg font-bold text-white hover:text-cyan-300 transition-colors block mt-0.5"
                   >
                     {BUSINESS_INFO.phoneFormatted}
@@ -271,10 +271,11 @@ export default function ContactSection() {
             ) : (
               <form onSubmit={handleQuickForm} className="space-y-4">
                 <div>
-                  <label className="block text-xs font-semibold text-slate-300 mb-1">
+                  <label htmlFor="contact-name" className="block text-xs font-semibold text-slate-300 mb-1">
                     Your Name *
                   </label>
                   <input
+                    id="contact-name"
                     type="text"
                     required
                     placeholder="e.g. John Miller"
@@ -286,10 +287,11 @@ export default function ContactSection() {
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
-                    <label className="block text-xs font-semibold text-slate-300 mb-1">
+                    <label htmlFor="contact-phone" className="block text-xs font-semibold text-slate-300 mb-1">
                       Phone / WhatsApp *
                     </label>
                     <input
+                      id="contact-phone"
                       type="tel"
                       required
                       placeholder="e.g. 084 123 4567"
@@ -300,10 +302,11 @@ export default function ContactSection() {
                   </div>
 
                   <div>
-                    <label className="block text-xs font-semibold text-slate-300 mb-1">
+                    <label htmlFor="contact-email" className="block text-xs font-semibold text-slate-300 mb-1">
                       Email Address
                     </label>
                     <input
+                      id="contact-email"
                       type="email"
                       placeholder="e.g. yourname@domain.co.za"
                       value={formData.email}
@@ -314,10 +317,11 @@ export default function ContactSection() {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-slate-300 mb-1">
+                  <label htmlFor="contact-message" className="block text-xs font-semibold text-slate-300 mb-1">
                     Holiday Wishlist or Question *
                   </label>
                   <textarea
+                    id="contact-message"
                     required
                     rows={4}
                     placeholder="Where are you thinking of traveling? Who is traveling and what dates/budget do you have in mind?"

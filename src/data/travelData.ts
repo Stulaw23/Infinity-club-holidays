@@ -8,6 +8,7 @@ export const BUSINESS_INFO = {
   agentRole: "Travel Agent & Founder",
   experienceYears: 21,
   phone: "0845626444",
+  phoneTel: "+27845626444",
   phoneFormatted: "+27 84 562 6444",
   whatsappNumber: "27845626444",
   email: "Infinityholidays1@gmail.com",
@@ -26,7 +27,7 @@ export const BUSINESS_INFO = {
   },
   social: {
     facebook: "https://www.facebook.com/share/1BeAB4CRPn/",
-    instagram: "https://www.instagram.com/infinityclubholidays?stkn=cXVhOGJleTNiOGkx"
+    instagram: "https://www.instagram.com/infinityclubholidays/"
   }
 };
 

@@ -172,10 +172,11 @@ export default function TestimonialsSection() {
               ) : (
                 <form onSubmit={handleAddReview} className="space-y-4">
                   <div>
-                    <label className="block text-xs font-bold text-slate-700 mb-1">
+                    <label htmlFor="review-author" className="block text-xs font-bold text-slate-700 mb-1">
                       Your Full Name
                     </label>
                     <input
+                      id="review-author"
                       type="text"
                       required
                       placeholder="e.g. David & Lisa Botha"
@@ -187,10 +188,11 @@ export default function TestimonialsSection() {
 
                   <div className="grid grid-cols-2 gap-3">
                     <div>
-                      <label className="block text-xs font-bold text-slate-700 mb-1">
+                      <label htmlFor="review-trip-type" className="block text-xs font-bold text-slate-700 mb-1">
                         Trip Type
                       </label>
                       <select
+                        id="review-trip-type"
                         value={tripType}
                         onChange={(e) => setTripType(e.target.value)}
                         className="w-full text-xs sm:text-sm px-3 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-purple-500 bg-white"
@@ -206,10 +208,11 @@ export default function TestimonialsSection() {
                     </div>
 
                     <div>
-                      <label className="block text-xs font-bold text-slate-700 mb-1">
+                      <label htmlFor="review-destination" className="block text-xs font-bold text-slate-700 mb-1">
                         Destination
                       </label>
                       <input
+                        id="review-destination"
                         type="text"
                         placeholder="e.g. Mauritius / Kruger"
                         value={destination}
@@ -220,14 +223,15 @@ export default function TestimonialsSection() {
                   </div>
 
                   <div>
-                    <label className="block text-xs font-bold text-slate-700 mb-1">
+                    <div className="block text-xs font-bold text-slate-700 mb-1">
                       Rating
-                    </label>
+                    </div>
                     <div className="flex items-center gap-2">
                       {[1, 2, 3, 4, 5].map((star) => (
                         <button
                           key={star}
                           type="button"
+                          aria-label={`Rate ${star} out of 5 stars`}
                           onClick={() => setRating(star)}
                           className="p-1 focus:outline-none"
                         >
@@ -247,10 +251,11 @@ export default function TestimonialsSection() {
                   </div>
 
                   <div>
-                    <label className="block text-xs font-bold text-slate-700 mb-1">
+                    <label htmlFor="review-text" className="block text-xs font-bold text-slate-700 mb-1">
                       Your Review / Experience
                     </label>
                     <textarea
+                      id="review-text"
                       required
                       rows={4}
                       placeholder="How did Cathy assist with your flights, hotels, or holiday planning? What was your highlight?"

@@ -124,7 +124,7 @@ export default function Footer({ onOpenQuoteModal }: FooterProps) {
 
               <div className="flex items-center gap-2.5">
                 <Phone className="w-4 h-4 text-purple-400 shrink-0" />
-                <a href={`tel:${BUSINESS_INFO.phone}`} className="hover:text-white transition-colors">
+                <a href={`tel:${BUSINESS_INFO.phoneTel}`} className="hover:text-white transition-colors">
                   {BUSINESS_INFO.phoneFormatted}
                 </a>
               </div>

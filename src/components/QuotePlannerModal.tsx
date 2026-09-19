@@ -147,7 +147,7 @@ export default function QuotePlannerModal({
                   <span>Open In WhatsApp</span>
                 </a>
                 <a
-                  href={`tel:${BUSINESS_INFO.phone}`}
+                  href={`tel:${BUSINESS_INFO.phoneTel}`}
                   className="px-4 py-2 bg-purple-600 text-white rounded-xl font-bold text-xs flex items-center gap-1.5"
                 >
                   <Phone className="w-3.5 h-3.5" />
@@ -180,10 +180,11 @@ export default function QuotePlannerModal({
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs font-semibold text-slate-700 mb-1">
+                  <label htmlFor="planner-destination-type" className="block text-xs font-semibold text-slate-700 mb-1">
                     Destination Category
                   </label>
                   <select
+                    id="planner-destination-type"
                     value={formData.destinationType}
                     onChange={(e) => setFormData({ ...formData, destinationType: e.target.value as any })}
                     className="w-full text-xs sm:text-sm px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-purple-500 bg-white"
@@ -198,10 +199,11 @@ export default function QuotePlannerModal({
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-slate-700 mb-1">
+                  <label htmlFor="planner-destination-detail" className="block text-xs font-semibold text-slate-700 mb-1">
                     Specific Destination / Package (Optional)
                   </label>
                   <input
+                    id="planner-destination-detail"
                     type="text"
                     placeholder="e.g. Mauritius All-Inclusive or Kruger Safari"
                     value={formData.destinationDetail}
@@ -221,10 +223,11 @@ export default function QuotePlannerModal({
 
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                 <div>
-                  <label className="block text-xs font-semibold text-slate-700 mb-1">
+                  <label htmlFor="planner-departure-city" className="block text-xs font-semibold text-slate-700 mb-1">
                     Departure Airport / City
                   </label>
                   <select
+                    id="planner-departure-city"
                     value={formData.departureCity}
                     onChange={(e) => setFormData({ ...formData, departureCity: e.target.value })}
                     className="w-full text-xs sm:text-sm px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-purple-500 bg-white"
@@ -239,10 +242,11 @@ export default function QuotePlannerModal({
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-slate-700 mb-1">
+                  <label htmlFor="planner-travel-dates" className="block text-xs font-semibold text-slate-700 mb-1">
                     Target Dates / Month
                   </label>
                   <input
+                    id="planner-travel-dates"
                     type="text"
                     placeholder="e.g. Dec 2026 or Easter Holidays"
                     value={formData.travelDates}
@@ -252,10 +256,11 @@ export default function QuotePlannerModal({
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-slate-700 mb-1">
+                  <label htmlFor="planner-duration-nights" className="block text-xs font-semibold text-slate-700 mb-1">
                     Duration
                   </label>
                   <select
+                    id="planner-duration-nights"
                     value={formData.durationNights}
                     onChange={(e) => setFormData({ ...formData, durationNights: e.target.value })}
                     className="w-full text-xs sm:text-sm px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-purple-500 bg-white"
@@ -272,10 +277,11 @@ export default function QuotePlannerModal({
               {/* Adults & Kids count */}
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1">
                 <div>
-                  <label className="block text-xs font-semibold text-slate-700 mb-1">
+                  <label htmlFor="planner-adults" className="block text-xs font-semibold text-slate-700 mb-1">
                     Adults (12+ yrs)
                   </label>
                   <input
+                    id="planner-adults"
                     type="number"
                     min={1}
                     max={30}
@@ -286,10 +292,11 @@ export default function QuotePlannerModal({
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-slate-700 mb-1">
+                  <label htmlFor="planner-children" className="block text-xs font-semibold text-slate-700 mb-1">
                     Children (Under 12)
                   </label>
                   <input
+                    id="planner-children"
                     type="number"
                     min={0}
                     max={15}
@@ -300,10 +307,11 @@ export default function QuotePlannerModal({
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-slate-700 mb-1">
+                  <label htmlFor="planner-children-ages" className="block text-xs font-semibold text-slate-700 mb-1">
                     Children Ages (for resort rates)
                   </label>
                   <input
+                    id="planner-children-ages"
                     type="text"
                     placeholder="e.g. 4, 8"
                     disabled={formData.children === 0}
@@ -356,10 +364,11 @@ export default function QuotePlannerModal({
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-700 mb-1">
+                <label htmlFor="planner-budget-range" className="block text-xs font-semibold text-slate-700 mb-1">
                   Estimated Budget Range Per Person
                 </label>
                 <select
+                  id="planner-budget-range"
                   value={formData.budgetPerPerson}
                   onChange={(e) => setFormData({ ...formData, budgetPerPerson: e.target.value })}
                   className="w-full text-xs sm:text-sm px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-purple-500 bg-white"
@@ -383,10 +392,11 @@ export default function QuotePlannerModal({
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs font-semibold text-slate-700 mb-1">
+                  <label htmlFor="planner-fullname" className="block text-xs font-semibold text-slate-700 mb-1">
                     Full Name *
                   </label>
                   <input
+                    id="planner-fullname"
                     type="text"
                     required
                     placeholder="e.g. Cathy Botha"
@@ -397,10 +407,11 @@ export default function QuotePlannerModal({
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-slate-700 mb-1">
+                  <label htmlFor="planner-phone" className="block text-xs font-semibold text-slate-700 mb-1">
                     Phone / WhatsApp Number *
                   </label>
                   <input
+                    id="planner-phone"
                     type="tel"
                     required
                     placeholder="e.g. 082 123 4567"
@@ -413,10 +424,11 @@ export default function QuotePlannerModal({
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs font-semibold text-slate-700 mb-1">
+                  <label htmlFor="planner-email" className="block text-xs font-semibold text-slate-700 mb-1">
                     Email Address
                   </label>
                   <input
+                    id="planner-email"
                     type="email"
                     placeholder="e.g. yourname@gmail.com"
                     value={formData.email}
@@ -426,10 +438,11 @@ export default function QuotePlannerModal({
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-slate-700 mb-1">
+                  <label htmlFor="planner-preferred-contact" className="block text-xs font-semibold text-slate-700 mb-1">
                     Preferred Contact Method
                   </label>
                   <select
+                    id="planner-preferred-contact"
                     value={formData.preferredContact}
                     onChange={(e) => setFormData({ ...formData, preferredContact: e.target.value as any })}
                     className="w-full text-xs sm:text-sm px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-purple-500 bg-white"
@@ -442,10 +455,11 @@ export default function QuotePlannerModal({
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-700 mb-1">
+                <label htmlFor="planner-additional-notes" className="block text-xs font-semibold text-slate-700 mb-1">
                   Additional Notes or Special Wishes (Optional)
                 </label>
                 <textarea
+                  id="planner-additional-notes"
                   rows={2}
                   placeholder="Tell us about special occasions (anniversary, honeymoon), flight preferences, or must-have activities..."
                   value={formData.additionalNotes}
