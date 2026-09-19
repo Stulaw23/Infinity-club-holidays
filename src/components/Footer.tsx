@@ -4,9 +4,10 @@ import { BUSINESS_INFO } from '../data/travelData';
 
 interface FooterProps {
   onOpenQuoteModal: () => void;
+  onOpenBugReport?: () => void;
 }
 
-export default function Footer({ onOpenQuoteModal }: FooterProps) {
+export default function Footer({ onOpenQuoteModal, onOpenBugReport }: FooterProps) {
   const whatsappUrl = `https://wa.me/${BUSINESS_INFO.whatsappNumber}?text=${encodeURIComponent(
     "Hi Cathy! I'm contacting you via the website footer to enquire about holiday bookings."
   )}`;
@@ -159,8 +160,36 @@ export default function Footer({ onOpenQuoteModal }: FooterProps) {
             <span>🌍 <strong>INFINITY CLUB HOLIDAYS</strong> – Endless Travel Possibilities</span>
           </div>
 
-          <div className="flex items-center gap-1 text-slate-400">
+          <div className="flex items-center gap-4 text-slate-400">
             <span>Travel Agent: <strong>Cathy Lawrence</strong> (21 Years Experience)</span>
+            {onOpenBugReport && (
+              <div className="flex items-center gap-2.5">
+                <button
+                  type="button"
+                  id="footer-traveler-support-btn"
+                  onClick={onOpenBugReport}
+                  className="text-slate-400 hover:text-purple-300 underline transition-colors cursor-pointer text-[11px]"
+                >
+                  Need Help / Support
+                </button>
+                <span className="text-slate-700">·</span>
+                <button
+                  type="button"
+                  id="footer-agency-console-btn"
+                  onClick={() => {
+                    // Quick agency shortcut: switches dev mode on
+                    if (typeof window !== 'undefined') {
+                      window.location.hash = '#admin';
+                    }
+                    onOpenBugReport();
+                  }}
+                  className="text-slate-600 hover:text-purple-400 text-[10px] transition-colors cursor-pointer flex items-center gap-0.5"
+                  title="Agency Diagnostic Console"
+                >
+                  <span>Agency</span>
+                </button>
+              </div>
+            )}
           </div>
         </div>
 

@@ -11,25 +11,20 @@ interface PackageModalProps {
 
 export default function PackageModal({ pkg, onClose, onOpenQuoteModal }: PackageModalProps) {
   const [copiedLink, setCopiedLink] = useState(false);
+  const [viewMode, setViewMode] = useState<'flyer' | 'photo'>('flyer');
+  const [imgLoadError, setImgLoadError] = useState(false);
 
   if (!pkg) return null;
 
-  const formatZAR = (amount: number) => {
-    return new Intl.NumberFormat('en-ZA', {
-      style: 'currency',
-      currency: 'ZAR',
-      maximumFractionDigits: 0
-    }).format(amount);
-  };
-
-  const whatsappMessage = `Hi Cathy! I'm reviewing the "${pkg.title}" package on your website (${pkg.duration} for ${formatZAR(pkg.priceZAR)} in ${pkg.destination}). I would love to check availability and options for our travel dates.`;
+  const operatorPrefix = pkg.operator ? `${pkg.operator} - ` : '';
+  const whatsappMessage = `Hi Cathy! I am reviewing the promotional special for "${operatorPrefix}${pkg.title}" (${pkg.destination}) on the Infinity Club Holidays website. Could you please provide flight options and check availability for our travel dates?`;
   const whatsappUrl = `https://wa.me/${BUSINESS_INFO.whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
 
   const handleShare = () => {
     if (navigator.share) {
       navigator.share({
         title: `${pkg.title} | Infinity Club Holidays`,
-        text: `Check out this holiday package: ${pkg.title} with Infinity Club Holidays!`,
+        text: `Check out this holiday special: ${pkg.title} with Cathy Lawrence at Infinity Club Holidays!`,
         url: window.location.href,
       }).catch(() => {});
     } else {
@@ -39,125 +34,148 @@ export default function PackageModal({ pkg, onClose, onOpenQuoteModal }: Package
     }
   };
 
-  return (
-    <div className="fixed inset-0 z-50 overflow-y-auto bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 sm:p-6 animate-in fade-in duration-200">
-      <div className="relative bg-white w-full max-w-3xl rounded-3xl overflow-hidden shadow-2xl border border-slate-200">
-        
-        {/* Close Button */}
-        <button
-          onClick={onClose}
-          className="absolute top-4 right-4 z-20 p-2.5 rounded-full bg-slate-900/60 hover:bg-slate-900 text-white backdrop-blur-md transition-all"
-          aria-label="Close details"
-        >
-          <X className="w-5 h-5" />
-        </button>
+  const currentDisplaySrc = viewMode === 'photo' && pkg.photoUrl
+    ? pkg.photoUrl
+    : (imgLoadError && pkg.photoUrl ? pkg.photoUrl : pkg.imageUrl);
 
-        {/* Modal Image Header */}
-        <div className="relative h-64 sm:h-80 overflow-hidden">
-          <img
-            src={pkg.imageUrl}
-            alt={pkg.title}
-            className="w-full h-full object-cover object-center"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent" />
-          
-          <div className="absolute bottom-5 left-6 right-6 text-white">
-            <div className="flex flex-wrap items-center gap-2 mb-2">
-              <span className="px-3 py-1 rounded-full text-xs font-bold bg-purple-600 text-white shadow-md">
-                {pkg.category.toUpperCase()}
+  return (
+    <div 
+      className="fixed inset-0 z-50 overflow-y-auto bg-black/80 backdrop-blur-sm flex items-center justify-center p-3 sm:p-6 animate-in fade-in duration-200"
+      onClick={(e) => {
+        if (e.target === e.currentTarget) onClose();
+      }}
+    >
+      <div className="relative bg-white w-full max-w-4xl rounded-3xl overflow-hidden shadow-2xl border border-slate-200 my-auto flex flex-col max-h-[92vh]">
+        
+        {/* Modal Top Header Bar */}
+        <div className="flex items-center justify-between px-6 py-4 border-b border-slate-200 bg-slate-50 shrink-0">
+          <div className="flex items-center gap-2">
+            {pkg.operator && (
+              <span className="px-3 py-1 rounded-full text-xs font-bold bg-purple-600 text-white shadow-sm">
+                {pkg.operator}
               </span>
-              <span className="inline-flex items-center gap-1 text-xs font-medium text-cyan-300 bg-slate-900/60 px-2.5 py-1 rounded-full backdrop-blur-md">
-                <MapPin className="w-3.5 h-3.5" />
-                {pkg.destination}
-              </span>
-              <span className="inline-flex items-center gap-1 text-xs font-medium text-slate-200 bg-slate-900/60 px-2.5 py-1 rounded-full backdrop-blur-md">
-                <Clock className="w-3.5 h-3.5" />
-                {pkg.duration}
-              </span>
-            </div>
-            <h2 className="text-2xl sm:text-3xl font-extrabold font-outfit leading-tight">
-              {pkg.title}
-            </h2>
-            <p className="text-sm text-slate-300 mt-1">{pkg.subtitle}</p>
+            )}
+            <span className="text-sm font-bold text-slate-800 hidden sm:inline">
+              Official Holiday Promotional Flyer
+            </span>
+          </div>
+
+          <div className="flex items-center gap-2">
+            {pkg.photoUrl && (
+              <div className="flex items-center bg-slate-200/80 p-0.5 rounded-full text-xs font-medium mr-1">
+                <button
+                  onClick={() => setViewMode('flyer')}
+                  className={`px-3 py-1 rounded-full transition-colors ${
+                    viewMode === 'flyer'
+                      ? 'bg-white text-slate-900 font-bold shadow-xs'
+                      : 'text-slate-600 hover:text-slate-900'
+                  }`}
+                >
+                  Promotional Flyer
+                </button>
+                <button
+                  onClick={() => setViewMode('photo')}
+                  className={`px-3 py-1 rounded-full transition-colors ${
+                    viewMode === 'photo'
+                      ? 'bg-white text-slate-900 font-bold shadow-xs'
+                      : 'text-slate-600 hover:text-slate-900'
+                  }`}
+                >
+                  Destination Photo
+                </button>
+              </div>
+            )}
+
+            <button
+              onClick={handleShare}
+              className="px-3 py-1.5 rounded-full text-xs font-medium text-slate-600 bg-white border border-slate-200 hover:bg-slate-100 transition-colors flex items-center gap-1.5 shadow-sm"
+              title="Share link"
+            >
+              <Share2 className="w-3.5 h-3.5" />
+              <span>{copiedLink ? 'Copied!' : 'Share'}</span>
+            </button>
+
+            <button
+              onClick={onClose}
+              className="p-1.5 rounded-full bg-slate-200 hover:bg-slate-300 text-slate-700 transition-colors"
+              aria-label="Close flyer modal"
+            >
+              <X className="w-5 h-5" />
+            </button>
           </div>
         </div>
 
-        {/* Modal Body Content */}
-        <div className="p-6 sm:p-8 max-h-[60vh] overflow-y-auto space-y-6">
+        {/* Modal Body: Scrollable, Centering the Full Flyer */}
+        <div className="overflow-y-auto p-4 sm:p-6 space-y-6 bg-slate-100/60">
           
-          {/* Price Overview Banner */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between p-4 rounded-2xl bg-purple-50 border border-purple-100 gap-4">
-            <div>
-              <div className="text-xs uppercase tracking-wider text-purple-700 font-bold">
-                Package Estimate
-              </div>
-              <div className="text-3xl font-black text-slate-900 font-outfit">
-                {formatZAR(pkg.priceZAR)}
-              </div>
-              <div className="text-xs text-slate-500 mt-0.5">
-                {pkg.priceNote || 'Per person sharing'}
-              </div>
-            </div>
-
-            <div className="flex items-center gap-2">
-              <button
-                onClick={handleShare}
-                className="px-3 py-2 rounded-xl text-xs font-medium text-slate-600 bg-white border border-slate-200 hover:bg-slate-100 transition-colors flex items-center gap-1.5"
-              >
-                <Share2 className="w-3.5 h-3.5" />
-                <span>{copiedLink ? 'Link Copied!' : 'Share'}</span>
-              </button>
-            </div>
+          {/* Promotional Artwork / Photo - Aspect Ratio Preserved, No Distortion */}
+          <div className="flex justify-center items-center bg-slate-900/5 rounded-2xl p-2 sm:p-4 border border-slate-200 shadow-inner">
+            <img
+              src={currentDisplaySrc}
+              alt={`${pkg.operator || ''} ${pkg.title} - ${viewMode === 'photo' ? 'Scenic Destination Photo' : 'Official Promotional Flyer'}`}
+              className="max-h-[70vh] w-auto max-w-full rounded-xl shadow-lg object-contain block mx-auto transition-all duration-200"
+              onError={() => {
+                if (!imgLoadError) setImgLoadError(true);
+              }}
+            />
           </div>
 
-          {/* Description */}
-          <div>
-            <h3 className="text-sm font-bold text-slate-900 uppercase tracking-wider mb-2">
-              About This Experience
-            </h3>
-            <p className="text-slate-600 text-sm leading-relaxed">
+          {/* Quick Details & Inclusions */}
+          <div className="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200 space-y-4 shadow-sm">
+            <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 pb-3">
+              <div>
+                <h2 className="text-xl sm:text-2xl font-extrabold font-outfit text-slate-900">
+                  {pkg.title}
+                </h2>
+                <p className="text-xs text-slate-500 mt-0.5">
+                  {pkg.destination} • {pkg.duration}
+                </p>
+              </div>
+
+              {pkg.priceNote && (
+                <div className="text-right">
+                  <span className="inline-block px-3 py-1 rounded-lg bg-purple-50 text-purple-700 font-bold text-xs border border-purple-200">
+                    {pkg.priceNote}
+                  </span>
+                </div>
+              )}
+            </div>
+
+            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
               {pkg.description}
             </p>
-          </div>
 
-          {/* Inclusions */}
-          <div>
-            <h3 className="text-sm font-bold text-slate-900 uppercase tracking-wider mb-3 flex items-center gap-2">
-              <Sparkles className="w-4 h-4 text-purple-600" />
-              <span>What&apos;s Included In This Package</span>
-            </h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-              {pkg.inclusions.map((item, idx) => (
-                <div
-                  key={idx}
-                  className="flex items-start gap-2.5 p-3 rounded-xl bg-slate-50 border border-slate-100 text-xs text-slate-800"
-                >
-                  <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
-                  <span className="font-medium">{item}</span>
+            {/* Inclusions */}
+            {pkg.inclusions && pkg.inclusions.length > 0 && (
+              <div>
+                <div className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2.5">
+                  Key Inclusions on This Tour:
                 </div>
-              ))}
-            </div>
-          </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  {pkg.inclusions.map((item, idx) => (
+                    <div key={idx} className="flex items-start gap-2 p-2.5 rounded-xl bg-slate-50 border border-slate-100 text-xs text-slate-800">
+                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0 mt-0.5" />
+                      <span>{item}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
 
-          {/* Ideal for & Personalisation Note */}
-          <div className="p-4 rounded-xl bg-slate-100/80 border border-slate-200/80 text-xs text-slate-600 space-y-1.5">
-            <div className="font-semibold text-slate-800">
-              <span className="text-purple-600">Ideal For:</span> {pkg.idealFor}
-            </div>
-            <div className="flex items-center gap-1.5 text-slate-500">
-              <ShieldCheck className="w-4 h-4 text-cyan-600 shrink-0" />
-              <span>
-                Backed by 21 years of travel packaging experience. Need different dates, departure airports, or hotel room upgrades? Cathy can personalize this package to your exact wishes.
-              </span>
-            </div>
+            {/* Terms notice */}
+            {pkg.terms && (
+              <p className="text-[11px] text-slate-400 italic pt-2 border-t border-slate-100">
+                {pkg.terms}
+              </p>
+            )}
           </div>
-
         </div>
 
         {/* Modal Action Footer */}
-        <div className="p-4 sm:p-6 border-t border-slate-200 bg-slate-50 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <div className="text-xs text-slate-500 text-center sm:text-left">
-            Have questions about this package? Speak directly to Cathy.
+        <div className="p-4 sm:p-5 border-t border-slate-200 bg-white flex flex-col sm:flex-row items-center justify-between gap-3 shrink-0">
+          <div className="text-xs text-slate-500 text-center sm:text-left flex items-center gap-1.5">
+            <ShieldCheck className="w-4 h-4 text-emerald-600 shrink-0" />
+            <span>Book with Cathy Lawrence (21+ Years Experience). Best flight pairings guaranteed.</span>
           </div>
 
           <div className="flex items-center gap-2.5 w-full sm:w-auto">
@@ -168,7 +186,7 @@ export default function PackageModal({ pkg, onClose, onOpenQuoteModal }: Package
               className="flex-1 sm:flex-none px-5 py-2.5 rounded-xl text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 transition-all flex items-center justify-center gap-2 shadow-sm"
             >
               <MessageCircle className="w-4 h-4" />
-              <span>WhatsApp About This</span>
+              <span>WhatsApp Cathy</span>
             </a>
 
             <button

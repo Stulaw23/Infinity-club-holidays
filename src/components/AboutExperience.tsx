@@ -33,6 +33,77 @@ export default function AboutExperience({ onOpenQuoteModal }: AboutExperiencePro
           </p>
         </div>
 
+        {/* Meet Cathy Lawrence Showcase */}
+        <div className="mb-16 rounded-3xl bg-gradient-to-br from-slate-950/90 via-purple-950/30 to-slate-900 border border-purple-500/30 p-6 sm:p-8 lg:p-10 shadow-2xl overflow-hidden relative">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+            {/* Photo container */}
+            <div className="lg:col-span-5 relative group">
+              <div className="relative rounded-2xl overflow-hidden border-2 border-purple-400/40 shadow-2xl shadow-purple-950/50 max-w-md mx-auto">
+                <img
+                  src="/assets/cathy_lawrence.jpg"
+                  alt="Cathy Lawrence - Founder & Senior Travel Consultant, Infinity Club Holidays"
+                  className="w-full h-auto object-cover object-center transform group-hover:scale-105 transition-transform duration-500"
+                  referrerPolicy="no-referrer"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent pointer-events-none" />
+                <div className="absolute bottom-3 left-3 right-3 p-3 rounded-xl bg-slate-900/90 backdrop-blur-md border border-slate-700/80 text-center">
+                  <p className="text-xs sm:text-sm font-bold text-white font-outfit">
+                    Cathy Lawrence
+                  </p>
+                  <p className="text-[11px] text-cyan-300 font-medium">
+                    Owner &amp; Senior Travel Consultant • 21 Years of Industry Care
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Story and Belonging text */}
+            <div className="lg:col-span-7 space-y-4">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-950/60 border border-cyan-500/40 text-cyan-300 text-xs font-bold uppercase tracking-wider">
+                <HeartHandshake className="w-3.5 h-3.5 text-cyan-400" />
+                <span>The Lady You're Dealing With</span>
+              </div>
+
+              <h3 className="text-2xl sm:text-3xl font-extrabold text-white font-outfit tracking-tight">
+                Meet Cathy Lawrence — 21 Years of Personal Travel Passion
+              </h3>
+
+              <p className="text-sm sm:text-base text-slate-300 leading-relaxed">
+                When planning your holiday, you deserve to know exactly who is handling your hard-earned money and dream itinerary. Infinity Club Holidays is Cathy Lawrence's personal travel business, built on integrity, genuine warmth, and over two decades of hands-on expertise.
+              </p>
+
+              <p className="text-sm text-slate-300 leading-relaxed">
+                From the moment you enquire until you return home safely, Cathy personally oversees every booking detail. Whether arranging flights, selecting vetted resorts, coordinating cruise cabins, or offering advice on visas and transfers, you deal directly with Cathy—giving you complete peace of mind and personal belonging.
+              </p>
+
+              <div className="pt-3 flex flex-wrap gap-4 text-xs font-semibold text-purple-200">
+                <div className="flex items-center gap-2">
+                  <ShieldCheck className="w-4 h-4 text-emerald-400" />
+                  <span>Direct WhatsApp Line to Cathy</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Award className="w-4 h-4 text-cyan-400" />
+                  <span>21 Years of South African Travel Experience</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Sparkles className="w-4 h-4 text-amber-400" />
+                  <span>Strand, Western Cape &amp; Worldwide</span>
+                </div>
+              </div>
+
+              <div className="pt-2">
+                <button
+                  onClick={onOpenQuoteModal}
+                  className="px-5 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs uppercase tracking-wider transition-all shadow-md inline-flex items-center gap-2"
+                >
+                  <MessageCircle className="w-3.5 h-3.5" />
+                  <span>Chat With Cathy &amp; Plan Your Trip</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
         {/* 2-Column Story & Business Card */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center mb-16">
           

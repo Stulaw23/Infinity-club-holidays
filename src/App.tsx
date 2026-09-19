@@ -11,10 +11,14 @@ import ContactSection from './components/ContactSection';
 import FloatingWhatsApp from './components/FloatingWhatsApp';
 import Footer from './components/Footer';
 import QuotePlannerModal from './components/QuotePlannerModal';
+import BugReportModal from './components/BugReportModal';
+import BugReportButton from './components/BugReportButton';
+import RageClickToast from './components/RageClickToast';
 import { HolidayPackage } from './types';
 
 export default function App() {
   const [quoteModalOpen, setQuoteModalOpen] = useState(false);
+  const [bugReportModalOpen, setBugReportModalOpen] = useState(false);
   const [selectedPackageForQuote, setSelectedPackageForQuote] = useState<string>('');
   const [selectedCategoryForQuote, setSelectedCategoryForQuote] = useState<string>('');
   const [detailModalPackage, setDetailModalPackage] = useState<HolidayPackage | null>(null);
@@ -64,10 +68,19 @@ export default function App() {
       </main>
 
       {/* Footer */}
-      <Footer onOpenQuoteModal={() => handleOpenQuoteModal()} />
+      <Footer 
+        onOpenQuoteModal={() => handleOpenQuoteModal()} 
+        onOpenBugReport={() => setBugReportModalOpen(true)}
+      />
 
       {/* Floating WhatsApp Action Button & Mobile Sticky Bar */}
       <FloatingWhatsApp onOpenQuoteModal={() => handleOpenQuoteModal()} />
+
+      {/* Floating Bug Report Trigger Button */}
+      <BugReportButton onOpen={() => setBugReportModalOpen(true)} />
+
+      {/* Proactive Rage Click Toast Notification */}
+      <RageClickToast onOpenBugReport={() => setBugReportModalOpen(true)} />
 
       {/* Package Detail Modal */}
       <PackageModal
@@ -86,6 +99,13 @@ export default function App() {
         initialPackageTitle={selectedPackageForQuote}
         initialCategory={selectedCategoryForQuote}
       />
+
+      {/* Bug Report, Session Replay & UX Error Diagnostics Modal */}
+      <BugReportModal
+        isOpen={bugReportModalOpen}
+        onClose={() => setBugReportModalOpen(false)}
+      />
     </div>
   );
 }
+

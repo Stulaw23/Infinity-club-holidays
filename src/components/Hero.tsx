@@ -39,11 +39,27 @@ export default function Hero({ onOpenQuoteModal }: HeroProps) {
         <div className="max-w-3xl">
           
           {/* 21 Years Experience Pill */}
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-purple-900/60 border border-purple-400/40 text-purple-200 text-xs sm:text-sm font-semibold mb-6 backdrop-blur-md shadow-inner">
-            <Award className="w-4 h-4 text-cyan-400" />
-            <span>21 Years of Travel Industry Expertise</span>
-            <span className="text-purple-400">•</span>
-            <span className="text-cyan-300 font-normal">Personalised Travel Planning</span>
+          <div className="flex flex-wrap items-center gap-2.5 mb-6">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-purple-900/60 border border-purple-400/40 text-purple-200 text-xs sm:text-sm font-semibold backdrop-blur-md shadow-inner">
+              <Award className="w-4 h-4 text-cyan-400" />
+              <span>21 Years of Travel Industry Expertise</span>
+              <span className="text-purple-400">•</span>
+              <span className="text-cyan-300 font-normal">Personalised Planning</span>
+            </div>
+
+            {/* Cathy Lawrence Personal Trust Chip */}
+            <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-slate-900/80 backdrop-blur-md border border-purple-500/40 shadow-sm">
+              <img
+                src="/assets/cathy_lawrence.jpg"
+                alt="Cathy Lawrence - Travel Agent"
+                className="w-6 h-6 rounded-full object-cover border border-cyan-400 shrink-0"
+                referrerPolicy="no-referrer"
+              />
+              <span className="text-xs text-slate-200 font-medium">
+                <strong className="text-white font-semibold">Cathy Lawrence</strong>
+                <span className="text-purple-300 ml-1 hidden sm:inline">• Personal Travel Specialist</span>
+              </span>
+            </div>
           </div>
 
           {/* Main Headline */}
