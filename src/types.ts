@@ -67,6 +67,16 @@ export interface Testimonial {
   verified?: boolean;
 }
 
+export interface ReviewData {
+  id: string;
+  fullName: string;
+  holidayType: string;
+  destination: string;
+  rating: number;
+  feedback: string;
+  date: string;
+}
+
 export interface QuoteRequest {
   fullName: string;
   phone: string;

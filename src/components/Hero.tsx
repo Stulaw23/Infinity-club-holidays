@@ -21,49 +21,35 @@ export default function Hero({ onOpenQuoteModal }: HeroProps) {
   };
 
   return (
-    <section className="relative overflow-hidden bg-slate-950 text-white min-h-[640px] lg:min-h-[720px] flex flex-col justify-between">
+    <section className="relative overflow-hidden bg-slate-950 text-white min-h-[600px] lg:min-h-[680px] flex flex-col justify-between">
       {/* Background Photography with atmospheric overlay */}
-      <div className="absolute inset-0 z-0">
+      <div className="absolute inset-0 z-0 pointer-events-none">
         <img
           src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=2000&q=85"
           alt="Luxury tropical island resort and turquoise lagoon"
           className="w-full h-full object-cover object-center transform scale-105 transition-transform duration-1000 ease-out"
         />
         {/* Multi-stage gradient overlay: deep purple/slate to transparent with cyan tint */}
-        <div className="absolute inset-0 bg-gradient-to-r from-slate-950/95 via-slate-950/80 to-purple-950/60" />
+        <div className="absolute inset-0 bg-gradient-to-r from-slate-950/95 via-slate-950/85 to-purple-950/60" />
         <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-black/30" />
       </div>
 
       {/* Hero Content */}
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-16 lg:pt-20 lg:pb-24 w-full my-auto">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-14 lg:pt-16 lg:pb-20 w-full my-auto">
         <div className="max-w-3xl">
           
           {/* 21 Years Experience Pill */}
-          <div className="flex flex-wrap items-center gap-2.5 mb-6">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-purple-900/60 border border-purple-400/40 text-purple-200 text-xs sm:text-sm font-semibold backdrop-blur-md shadow-inner">
-              <Award className="w-4 h-4 text-cyan-400" />
+          <div className="flex flex-wrap items-center gap-2.5 mb-5 sm:mb-6">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-purple-900/70 border border-purple-400/40 text-purple-200 text-xs sm:text-sm font-semibold backdrop-blur-md shadow-inner">
+              <Award className="w-4 h-4 text-cyan-400 shrink-0" />
               <span>21 Years of Travel Industry Expertise</span>
               <span className="text-purple-400">•</span>
               <span className="text-cyan-300 font-normal">Personalised Planning</span>
             </div>
-
-            {/* Cathy Lawrence Personal Trust Chip */}
-            <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-slate-900/80 backdrop-blur-md border border-purple-500/40 shadow-sm">
-              <img
-                src="/assets/cathy_lawrence.jpg"
-                alt="Cathy Lawrence - Travel Agent"
-                className="w-6 h-6 rounded-full object-cover border border-cyan-400 shrink-0"
-                referrerPolicy="no-referrer"
-              />
-              <span className="text-xs text-slate-200 font-medium">
-                <strong className="text-white font-semibold">Cathy Lawrence</strong>
-                <span className="text-purple-300 ml-1 hidden sm:inline">• Personal Travel Specialist</span>
-              </span>
-            </div>
           </div>
 
           {/* Main Headline */}
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white font-outfit leading-[1.12]">
+          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white font-outfit leading-[1.15]">
             Endless Travel Possibilities. <br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 via-sky-200 to-purple-300">
               Crafted With 21 Years
@@ -71,35 +57,35 @@ export default function Hero({ onOpenQuoteModal }: HeroProps) {
           </h1>
 
           {/* Subtext with the business value proposition */}
-          <p className="mt-5 text-base sm:text-lg text-slate-300 leading-relaxed max-w-2xl font-normal">
+          <p className="mt-4 sm:mt-5 text-sm sm:text-base lg:text-lg text-slate-300 leading-relaxed max-w-2xl font-normal">
             Take the stress out of holiday planning. Whether you dream of a local South African bush safari, an idyllic island resort in Mauritius, a luxury European cruise, or a tailor-made world adventure, we arrange your journey from start to finish.
           </p>
 
           {/* Primary Action Buttons */}
-          <div className="mt-8 flex flex-wrap items-center gap-4">
+          <div className="mt-6 sm:mt-8 flex flex-wrap items-center gap-3 sm:gap-4">
             <button
               onClick={() => onOpenQuoteModal()}
-              className="inline-flex items-center gap-2.5 px-6 py-3.5 rounded-xl font-bold text-sm tracking-wide text-white bg-gradient-to-r from-purple-600 via-indigo-600 to-purple-700 hover:from-purple-500 hover:to-indigo-600 shadow-lg shadow-purple-600/30 hover:shadow-purple-600/50 hover:scale-[1.02] active:scale-[0.98] transition-all"
+              className="inline-flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-xl font-bold text-xs sm:text-sm tracking-wide text-white bg-gradient-to-r from-purple-600 via-indigo-600 to-purple-700 hover:from-purple-500 hover:to-indigo-600 shadow-lg shadow-purple-600/30 hover:shadow-purple-600/50 hover:scale-[1.02] active:scale-[0.98] transition-all w-full sm:w-auto"
             >
-              <Calendar className="w-5 h-5" />
+              <Calendar className="w-4 h-4 sm:w-5 sm:h-5 shrink-0" />
               <span>Plan My Holiday / Get a Quote</span>
-              <ArrowRight className="w-4 h-4" />
+              <ArrowRight className="w-4 h-4 shrink-0" />
             </button>
 
             <a
               href={whatsappHeroUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2.5 px-5 py-3.5 rounded-xl font-bold text-sm text-white bg-emerald-600 hover:bg-emerald-500 shadow-lg shadow-emerald-900/30 hover:scale-[1.02] active:scale-[0.98] transition-all"
+              className="inline-flex items-center justify-center gap-2.5 px-5 py-3.5 rounded-xl font-bold text-xs sm:text-sm text-white bg-emerald-600 hover:bg-emerald-500 shadow-lg shadow-emerald-900/30 hover:scale-[1.02] active:scale-[0.98] transition-all w-full sm:w-auto"
             >
-              <MessageCircle className="w-5 h-5" />
+              <MessageCircle className="w-4 h-4 sm:w-5 sm:h-5 shrink-0" />
               <span>WhatsApp Us (084 562 6444)</span>
             </a>
           </div>
 
           {/* Quick quote interactive bar */}
-          <div className="mt-10 p-4 sm:p-5 rounded-2xl bg-slate-900/80 backdrop-blur-md border border-slate-700/60 shadow-2xl">
-            <form onSubmit={handleQuickSearch} className="grid grid-cols-1 sm:grid-cols-4 gap-3">
+          <div className="mt-8 sm:mt-10 p-4 sm:p-5 rounded-2xl bg-slate-900/85 backdrop-blur-md border border-slate-700/60 shadow-2xl">
+            <form onSubmit={handleQuickSearch} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
               <div>
                 <label className="block text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1">
                   Holiday Style
@@ -151,7 +137,7 @@ export default function Hero({ onOpenQuoteModal }: HeroProps) {
                 </select>
               </div>
 
-              <div className="flex items-end">
+              <div className="flex items-end sm:col-span-2 lg:col-span-1">
                 <button
                   type="submit"
                   className="w-full bg-purple-600 hover:bg-purple-500 text-white font-bold py-2.5 px-4 rounded-lg text-xs sm:text-sm flex items-center justify-center gap-2 transition-all shadow-md shadow-purple-600/30"
@@ -169,45 +155,45 @@ export default function Hero({ onOpenQuoteModal }: HeroProps) {
       {/* Bottom Trust Indicators Strip */}
       <div className="relative z-10 border-t border-slate-800/80 bg-slate-950/90 backdrop-blur-md py-4">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center sm:text-left">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-left">
             
             <div className="flex items-center gap-3">
-              <div className="p-2 rounded-lg bg-purple-500/10 text-purple-400">
+              <div className="p-2 rounded-lg bg-purple-500/10 text-purple-400 shrink-0">
                 <Award className="w-5 h-5" />
               </div>
               <div>
-                <div className="text-sm font-bold text-white">21 Years Experience</div>
-                <div className="text-xs text-slate-400">Trusted industry guidance</div>
+                <div className="text-xs sm:text-sm font-bold text-white">21 Years Experience</div>
+                <div className="text-[11px] sm:text-xs text-slate-400">Trusted industry guidance</div>
               </div>
             </div>
 
             <div className="flex items-center gap-3">
-              <div className="p-2 rounded-lg bg-cyan-500/10 text-cyan-400">
+              <div className="p-2 rounded-lg bg-cyan-500/10 text-cyan-400 shrink-0">
                 <HeartHandshake className="w-5 h-5" />
               </div>
               <div>
-                <div className="text-sm font-bold text-white">100% Personalised</div>
-                <div className="text-xs text-slate-400">Tailored to your budget</div>
+                <div className="text-xs sm:text-sm font-bold text-white">100% Personalised</div>
+                <div className="text-[11px] sm:text-xs text-slate-400">Tailored to your budget</div>
               </div>
             </div>
 
             <div className="flex items-center gap-3">
-              <div className="p-2 rounded-lg bg-emerald-500/10 text-emerald-400">
+              <div className="p-2 rounded-lg bg-emerald-500/10 text-emerald-400 shrink-0">
                 <Plane className="w-5 h-5" />
               </div>
               <div>
-                <div className="text-sm font-bold text-white">End-to-End Packages</div>
-                <div className="text-xs text-slate-400">Flights, stays & transfers</div>
+                <div className="text-xs sm:text-sm font-bold text-white">End-to-End Packages</div>
+                <div className="text-[11px] sm:text-xs text-slate-400">Flights, stays & transfers</div>
               </div>
             </div>
 
             <div className="flex items-center gap-3">
-              <div className="p-2 rounded-lg bg-purple-500/10 text-purple-400">
+              <div className="p-2 rounded-lg bg-purple-500/10 text-purple-400 shrink-0">
                 <ShieldCheck className="w-5 h-5" />
               </div>
               <div>
-                <div className="text-sm font-bold text-white">Dedicated Support</div>
-                <div className="text-xs text-slate-400">Direct WhatsApp line to Cathy</div>
+                <div className="text-xs sm:text-sm font-bold text-white">Dedicated Support</div>
+                <div className="text-[11px] sm:text-xs text-slate-400">Direct personal support line</div>
               </div>
             </div>
 

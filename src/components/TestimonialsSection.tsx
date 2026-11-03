@@ -1,374 +1,469 @@
-import { useState, useEffect } from 'react';
-import { Star, MessageSquareQuote, CheckCircle2, MessageCircle, X, PenLine, Heart, Facebook } from 'lucide-react';
-import { TESTIMONIALS_DATA, BUSINESS_INFO } from '../data/travelData';
-import { Testimonial } from '../types';
+import { useState, useEffect, useRef } from 'react';
+import {
+  Star,
+  MessageSquareQuote,
+  CheckCircle2,
+  Send,
+  Sparkles,
+  MapPin,
+  Compass,
+  Calendar,
+  X,
+} from 'lucide-react';
+import { ReviewData } from '../types';
+
+/**
+ * Database integration function ready to connect to:
+ * - Firebase Cloud Firestore (e.g., addDoc(collection(db, 'reviews'), reviewData))
+ * - Google Sheets API
+ * - REST API / Express backend route
+ *
+ * Currently simulates the async persistence layer before updating local client state.
+ */
+export async function saveReviewToDatabase(reviewData: ReviewData): Promise<boolean> {
+  // Simulates an async backend or Firestore round-trip
+  await new Promise((resolve) => setTimeout(resolve, 300));
+  return true;
+}
 
 export default function TestimonialsSection() {
-  const [testimonials, setTestimonials] = useState<Testimonial[]>(() => {
+  // 1. Dynamic state to store submitted reviews locally & sync with localStorage
+  const [reviews, setReviews] = useState<ReviewData[]>(() => {
     try {
-      // Ensure any legacy mock reviews from prior iterations are wiped clean
-      localStorage.removeItem('infinity_club_reviews');
-      const saved = localStorage.getItem('infinity_club_client_reviews_v2');
+      // Purge any legacy mock review storage keys
+      localStorage.removeItem('infinity_club_client_reviews_v3');
+      localStorage.removeItem('infinity_club_client_reviews_v4');
+      localStorage.removeItem('infinity_club_guest_reviews_v5');
+      localStorage.removeItem('infinity_club_direct_reviews_v6');
+
+      const saved = localStorage.getItem('infinity_club_guest_reviews_v7');
       if (saved) {
         const parsed = JSON.parse(saved);
-        if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+        if (Array.isArray(parsed)) return parsed;
       }
-    } catch (e) {
+    } catch {
       // ignore
     }
     return [];
   });
 
-  const [modalOpen, setModalOpen] = useState(false);
-  const [submittedMessage, setSubmittedMessage] = useState(false);
-
-  // Review submission state
-  const [authorName, setAuthorName] = useState('');
-  const [tripType, setTripType] = useState('Honeymoon / Couples');
-  const [destination, setDestination] = useState('');
-  const [rating, setRating] = useState(5);
-  const [reviewText, setReviewText] = useState('');
-
-  // Sync to localStorage
+  // Sync reviews state to browser localStorage
   useEffect(() => {
     try {
-      localStorage.setItem('infinity_club_client_reviews_v2', JSON.stringify(testimonials));
-    } catch (e) {
+      localStorage.setItem('infinity_club_guest_reviews_v7', JSON.stringify(reviews));
+    } catch {
       // ignore
     }
-  }, [testimonials]);
+  }, [reviews]);
 
-  const handleAddReview = (e: React.FormEvent) => {
+  // Form input fields matching ReviewData
+  const [fullName, setFullName] = useState('');
+  const [holidayType, setHolidayType] = useState('Holiday Package');
+  const [destination, setDestination] = useState('');
+  const [rating, setRating] = useState(5);
+  const [hoverRating, setHoverRating] = useState(0);
+  const [feedback, setFeedback] = useState('');
+
+  // UI status states
+  const [errors, setErrors] = useState<{ fullName?: string; feedback?: string }>({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showToast, setShowToast] = useState(false);
+  const toastTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Clean up timer on unmount
+  useEffect(() => {
+    return () => {
+      if (toastTimeoutRef.current) {
+        clearTimeout(toastTimeoutRef.current);
+      }
+    };
+  }, []);
+
+  const handleSubmitReview = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!authorName.trim() || !reviewText.trim()) return;
+    const newErrors: { fullName?: string; feedback?: string } = {};
 
-    const newTestimonial: Testimonial = {
-      id: `test-${Date.now()}`,
-      name: authorName.trim(),
-      location: 'South Africa',
-      tripType,
-      destination: destination.trim() || 'Custom Holiday',
+    if (!fullName.trim() || fullName.trim().length < 2) {
+      newErrors.fullName = 'Please enter your full name (minimum 2 characters)';
+    }
+    if (!feedback.trim() || feedback.trim().length < 10) {
+      newErrors.feedback = 'Please share your experience (minimum 10 characters)';
+    }
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return;
+    }
+
+    setErrors({});
+    setIsSubmitting(true);
+
+    const formattedDate = new Date().toLocaleDateString('en-GB', {
+      day: 'numeric',
+      month: 'short',
+      year: 'numeric',
+    });
+
+    const newReview: ReviewData = {
+      id: `rev-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`,
+      fullName: fullName.trim(),
+      holidayType: holidayType || 'Holiday Package',
+      destination: destination.trim() || 'Custom Getaway',
       rating,
-      comment: reviewText.trim(),
-      date: 'Just Now',
-      verified: true
+      feedback: feedback.trim(),
+      date: formattedDate,
     };
 
-    setTestimonials([newTestimonial, ...testimonials]);
-    setSubmittedMessage(true);
+    try {
+      // Call async database function ready for Firebase / API connection
+      await saveReviewToDatabase(newReview);
 
-    setTimeout(() => {
-      setSubmittedMessage(false);
-      setModalOpen(false);
-      setAuthorName('');
-      setReviewText('');
+      // Append new review object to state array (reverse chronological order - newest first)
+      setReviews((prev) => [newReview, ...prev]);
+
+      // Clear the form inputs
+      setFullName('');
+      setHolidayType('Holiday Package');
       setDestination('');
-    }, 2400);
-  };
+      setFeedback('');
+      setRating(5);
+      setHoverRating(0);
 
-  const sendReviewViaWhatsApp = () => {
-    const text = `Hi Cathy! Here is my review for Infinity Club Holidays:\n\nName: ${authorName || 'A Happy Client'}\nTrip: ${tripType} to ${destination || 'Our Holiday'}\nRating: ${'⭐'.repeat(rating)}\n\n"${reviewText || 'Thank you Cathy for your wonderful travel service!'}"`;
-    window.open(`https://wa.me/${BUSINESS_INFO.whatsappNumber}?text=${encodeURIComponent(text)}`, '_blank');
+      // Briefly show toast / notification: "Thank you! Your review has been published."
+      setShowToast(true);
+      if (toastTimeoutRef.current) {
+        clearTimeout(toastTimeoutRef.current);
+      }
+      toastTimeoutRef.current = setTimeout(() => {
+        setShowToast(false);
+      }, 5000);
+    } catch (err) {
+      console.error('Failed to submit review:', err);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
-    <section id="testimonials" className="py-20 bg-white relative">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-6">
-          <div className="max-w-2xl">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-100 text-purple-700 text-xs font-bold uppercase tracking-wider mb-3">
-              <MessageSquareQuote className="w-3.5 h-3.5 text-purple-600" />
-              <span>Client Experiences & Feedback</span>
-            </div>
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 font-outfit tracking-tight">
-              Have You Traveled With Cathy?
-            </h2>
-            <p className="mt-3 text-base text-slate-600 leading-relaxed">
-              With 21 years of personal travel consulting, every holiday is crafted with dedicated care. If Cathy helped plan your flight, safari, cruise, or island getaway, we would love to hear your feedback!
-            </p>
+    <section id="testimonials" className="py-20 bg-slate-50/70 border-t border-slate-200/80 relative">
+      {/* Toast Notification */}
+      {showToast && (
+        <div
+          role="status"
+          aria-live="polite"
+          className="fixed bottom-6 right-6 z-50 max-w-md bg-slate-900 text-white rounded-2xl p-4 shadow-2xl border border-emerald-500/40 flex items-center gap-3.5 animate-in slide-in-from-bottom-5 duration-300"
+        >
+          <div className="w-9 h-9 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0">
+            <CheckCircle2 className="w-5 h-5" />
           </div>
+          <div className="flex-1 text-xs sm:text-sm font-medium text-slate-100">
+            Thank you! Your review has been published.
+          </div>
+          <button
+            type="button"
+            onClick={() => setShowToast(false)}
+            className="text-slate-400 hover:text-white p-1 rounded-lg transition-colors cursor-pointer"
+            aria-label="Close notification"
+          >
+            <X className="w-4 h-4" />
+          </button>
+        </div>
+      )}
 
-          <div className="flex flex-wrap items-center gap-3">
-            <button
-              onClick={() => setModalOpen(true)}
-              className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-700 text-white text-xs sm:text-sm font-bold transition-all shadow-sm active:scale-95"
-            >
-              <PenLine className="w-4 h-4" />
-              <span>Write a Review</span>
-            </button>
-            <a
-              href={`https://wa.me/${BUSINESS_INFO.whatsappNumber}?text=${encodeURIComponent(
-                "Hi Cathy! I'd like to share my holiday feedback and review for Infinity Club Holidays."
-              )}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs sm:text-sm font-bold transition-all shadow-sm active:scale-95"
-            >
-              <MessageCircle className="w-4 h-4" />
-              <span>Review on WhatsApp</span>
-            </a>
-            <a
-              href={BUSINESS_INFO.social.facebook}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs sm:text-sm font-bold transition-all shadow-sm"
-            >
-              <Facebook className="w-4 h-4 text-blue-600" />
-              <span>Facebook Page</span>
-            </a>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Section Header */}
+        <div className="text-center max-w-3xl mx-auto mb-14">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-purple-100/80 border border-purple-200 text-purple-800 text-xs font-bold uppercase tracking-wider mb-3.5 shadow-xs">
+            <MessageSquareQuote className="w-3.5 h-3.5 text-purple-600 shrink-0" />
+            <span>Client Feedback</span>
           </div>
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 font-outfit tracking-tight">
+            Guest Reviews &amp; Feedback
+          </h2>
+          <p className="mt-3 text-sm sm:text-base text-slate-600 leading-relaxed max-w-2xl mx-auto">
+            We value direct feedback from every traveler who books with Infinity Club Holidays. Share your thoughts or read genuine reflections from past journeys.
+          </p>
         </div>
 
-        {/* Display Testimonials or Invitation Banner */}
-        {testimonials.length === 0 ? (
-          <div className="p-8 sm:p-12 rounded-3xl bg-gradient-to-br from-purple-50 via-slate-50 to-cyan-50 border border-purple-100 text-center max-w-4xl mx-auto shadow-sm">
-            <div className="w-14 h-14 rounded-2xl bg-white shadow-md text-purple-600 flex items-center justify-center mx-auto mb-4 border border-purple-100">
-              <Heart className="w-7 h-7 text-purple-600 fill-purple-100" />
-            </div>
-            
-            <h3 className="text-xl sm:text-2xl font-extrabold text-slate-900 font-outfit">
-              Share Your Holiday Story
-            </h3>
-            
-            <p className="mt-2 text-sm text-slate-600 max-w-xl mx-auto leading-relaxed">
-              Did Cathy coordinate your flights, recommend that perfect Mauritius resort, or handle your safari transfers? Your genuine review helps other South African travelers book with total peace of mind.
-            </p>
+        {/* 2-Column Responsive Layout */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
+          
+          {/* Left Column (7 cols): Brand & Welcome Section + Beach Image + Dynamic "Guest Experiences" Feed */}
+          <div className="lg:col-span-7 bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/90 shadow-sm flex flex-col">
+            <div>
+              {/* Brand Header */}
+              <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-purple-700 bg-purple-50 px-3 py-1 rounded-full border border-purple-100 mb-3">
+                <Compass className="w-3.5 h-3.5 text-purple-600" />
+                <span>Infinity Club Holidays</span>
+              </div>
 
-            <div className="mt-6 flex flex-wrap justify-center items-center gap-3">
-              <button
-                onClick={() => setModalOpen(true)}
-                className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-bold text-sm shadow-md transition-all active:scale-95"
-              >
-                <PenLine className="w-4 h-4" />
-                <span>Leave a Review</span>
-              </button>
-              
-              <a
-                href={`https://wa.me/${BUSINESS_INFO.whatsappNumber}?text=${encodeURIComponent(
-                  "Hi Cathy! Here is my review of our recent trip planned with Infinity Club Holidays: "
-                )}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm shadow-md transition-all active:scale-95"
-              >
-                <MessageCircle className="w-4 h-4" />
-                <span>Send to Cathy on WhatsApp</span>
-              </a>
-            </div>
+              <h3 className="text-2xl sm:text-3xl font-extrabold font-outfit text-slate-900 tracking-tight">
+                Tell Us About Your Journey
+              </h3>
 
-            <div className="mt-6 pt-6 border-t border-purple-200/60 flex flex-wrap items-center justify-center gap-6 text-xs text-slate-500 font-medium">
-              <span className="flex items-center gap-1.5">
-                <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-                Verified Personal Travel Agent
-              </span>
-              <span>•</span>
-              <span>21 Years of Hands-On Industry Care</span>
-              <span>•</span>
-              <span>Strand, Western Cape & Nationwide</span>
-            </div>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {testimonials.map((test) => (
-              <div
-                key={test.id}
-                className="p-6 rounded-2xl bg-slate-50 border border-slate-200 hover:border-purple-300 hover:shadow-lg transition-all flex flex-col justify-between"
-              >
-                <div>
-                  {/* Rating stars */}
-                  <div className="flex items-center gap-1 text-amber-400 mb-3">
-                    {[...Array(test.rating)].map((_, i) => (
-                      <Star key={i} className="w-4 h-4 fill-amber-400 text-amber-400" />
-                    ))}
-                  </div>
+              <p className="mt-3 text-sm sm:text-base text-slate-600 leading-relaxed font-normal">
+                At Infinity Club Holidays, we are dedicated to crafting unforgettable travel experiences. Whether you have recently returned from a custom getaway or a packaged holiday, we would love to hear about your experience. Your feedback helps us continue to deliver exceptional service.
+              </p>
 
-                  {/* Comment quote */}
-                  <p className="text-xs sm:text-sm text-slate-700 leading-relaxed italic mb-4">
-                    &ldquo;{test.comment}&rdquo;
-                  </p>
-                </div>
-
-                {/* Author info */}
-                <div className="pt-4 border-t border-slate-200/70">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <h4 className="text-sm font-bold text-slate-900 font-outfit">
-                        {test.name}
-                      </h4>
-                      <span className="text-[11px] text-slate-500 block">
-                        {test.location} • {test.destination}
-                      </span>
-                    </div>
-                    {test.verified && (
-                      <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded-full">
-                        <CheckCircle2 className="w-3 h-3 text-emerald-600" />
-                        Verified
-                      </span>
-                    )}
-                  </div>
-                  <div className="mt-1 text-[10px] text-purple-600 font-medium">
-                    {test.tripType} ({test.date})
+              {/* High-Resolution Tropical Beach Resort Visual */}
+              <div className="mt-6 overflow-hidden rounded-2xl shadow-md border border-slate-200 relative group">
+                <img
+                  src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=1200&q=85"
+                  alt="Tropical luxury beach resort with turquoise water and palm trees"
+                  className="w-full aspect-[16/10] object-cover transition-transform duration-700 group-hover:scale-103"
+                  loading="lazy"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/75 via-transparent to-transparent flex items-end p-4 sm:p-5">
+                  <div className="text-white">
+                    <span className="text-xs uppercase tracking-wider font-semibold text-cyan-300">
+                      Endless Travel Possibilities
+                    </span>
+                    <p className="text-xs sm:text-sm text-slate-200 font-medium mt-0.5">
+                      Tailored holidays, flights, and island escapes crafted with 21 years of expertise.
+                    </p>
                   </div>
                 </div>
               </div>
-            ))}
-          </div>
-        )}
+            </div>
 
-        {/* Write a review modal */}
-        {modalOpen && (
-          <div className="fixed inset-0 z-50 overflow-y-auto bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
-            <div className="relative bg-white w-full max-w-lg rounded-3xl p-6 sm:p-8 shadow-2xl border border-slate-200">
-              
-              <button
-                onClick={() => setModalOpen(false)}
-                className="absolute top-4 right-4 p-2 rounded-full hover:bg-slate-100 text-slate-500"
-                aria-label="Close review modal"
-              >
-                <X className="w-5 h-5" />
-              </button>
-
-              <div className="mb-6">
-                <h3 className="text-xl font-bold font-outfit text-slate-900">
-                  Share Your Travel Experience
-                </h3>
-                <p className="text-xs text-slate-500 mt-1">
-                  Did Cathy help plan your holiday? We would love to hear your feedback and feature your review!
-                </p>
-              </div>
-
-              {submittedMessage ? (
-                <div className="py-8 text-center space-y-3">
-                  <div className="w-12 h-12 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto">
-                    <CheckCircle2 className="w-6 h-6" />
-                  </div>
-                  <h4 className="text-base font-bold text-slate-900">
-                    Thank You For Your Review!
+            {/* Dynamic Reviews Feed (Directly Below the Beach Image) */}
+            <div className="mt-8 pt-6 border-t border-slate-200/90">
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center gap-2">
+                  <MessageSquareQuote className="w-4 h-4 text-purple-600" />
+                  <h4 className="text-base sm:text-lg font-bold font-outfit text-slate-900 tracking-tight">
+                    Guest Experiences
                   </h4>
-                  <p className="text-xs text-slate-600">
-                    Your testimonial has been submitted. Cathy and the Infinity Club Holidays team appreciate your support!
+                </div>
+                {reviews.length > 0 && (
+                  <span className="text-xs font-bold text-purple-700 bg-purple-50 px-2.5 py-1 rounded-full border border-purple-200">
+                    {reviews.length} {reviews.length === 1 ? 'Review' : 'Reviews'}
+                  </span>
+                )}
+              </div>
+
+              {/* Initial State (Empty) vs Active State (Cards in reverse chronological order) */}
+              {reviews.length === 0 ? (
+                <div className="p-6 sm:p-8 rounded-2xl bg-slate-50 border border-dashed border-slate-300 text-center">
+                  <p className="text-xs sm:text-sm text-slate-500 font-medium italic">
+                    No reviews yet — be the first to share your experience above.
                   </p>
                 </div>
               ) : (
-                <form onSubmit={handleAddReview} className="space-y-4">
-                  <div>
-                    <label htmlFor="review-author" className="block text-xs font-bold text-slate-700 mb-1">
-                      Your Full Name *
-                    </label>
-                    <input
-                      id="review-author"
-                      type="text"
-                      required
-                      placeholder="e.g. David & Lisa Botha"
-                      value={authorName}
-                      onChange={(e) => setAuthorName(e.target.value)}
-                      className="w-full text-xs sm:text-sm px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-purple-500"
-                    />
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-3">
-                    <div>
-                      <label htmlFor="review-trip-type" className="block text-xs font-bold text-slate-700 mb-1">
-                        Trip Type
-                      </label>
-                      <select
-                        id="review-trip-type"
-                        value={tripType}
-                        onChange={(e) => setTripType(e.target.value)}
-                        className="w-full text-xs sm:text-sm px-3 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-purple-500 bg-white"
-                      >
-                        <option value="Honeymoon">Honeymoon</option>
-                        <option value="Family Holiday">Family Holiday</option>
-                        <option value="Island Getaway">Island Getaway</option>
-                        <option value="Cruise">Cruise</option>
-                        <option value="Safari">Safari / Local SA</option>
-                        <option value="International Trip">International Trip</option>
-                        <option value="Ski Holiday">Ski Holiday</option>
-                      </select>
-                    </div>
-
-                    <div>
-                      <label htmlFor="review-destination" className="block text-xs font-bold text-slate-700 mb-1">
-                        Destination
-                      </label>
-                      <input
-                        id="review-destination"
-                        type="text"
-                        placeholder="e.g. Mauritius / Kruger"
-                        value={destination}
-                        onChange={(e) => setDestination(e.target.value)}
-                        className="w-full text-xs sm:text-sm px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-purple-500"
-                      />
-                    </div>
-                  </div>
-
-                  <div>
-                    <div className="block text-xs font-bold text-slate-700 mb-1">
-                      Rating
-                    </div>
-                    <div className="flex items-center gap-2">
-                      {[1, 2, 3, 4, 5].map((star) => (
-                        <button
-                          key={star}
-                          type="button"
-                          aria-label={`Rate ${star} out of 5 stars`}
-                          onClick={() => setRating(star)}
-                          className="p-1 focus:outline-none"
-                        >
-                          <Star
-                            className={`w-6 h-6 ${
-                              star <= rating
-                                ? 'fill-amber-400 text-amber-400'
-                                : 'text-slate-300'
-                            }`}
-                          />
-                        </button>
-                      ))}
-                      <span className="text-xs text-slate-500 font-semibold ml-2">
-                        {rating} out of 5 stars
-                      </span>
-                    </div>
-                  </div>
-
-                  <div>
-                    <label htmlFor="review-text" className="block text-xs font-bold text-slate-700 mb-1">
-                      Your Review / Experience *
-                    </label>
-                    <textarea
-                      id="review-text"
-                      required
-                      rows={4}
-                      placeholder="How did Cathy assist with your flights, hotels, or holiday planning? What was your highlight?"
-                      value={reviewText}
-                      onChange={(e) => setReviewText(e.target.value)}
-                      className="w-full text-xs sm:text-sm p-3 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-purple-500"
-                    />
-                  </div>
-
-                  <div className="flex flex-col sm:flex-row items-center gap-3 pt-2">
-                    <button
-                      type="submit"
-                      className="w-full sm:flex-1 py-3 px-4 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-bold text-xs uppercase tracking-wider transition-all shadow-md"
+                <div className="space-y-4 max-h-[500px] overflow-y-auto pr-1">
+                  {reviews.map((rev) => (
+                    <div
+                      key={rev.id}
+                      className="p-5 rounded-2xl bg-slate-50/90 border border-slate-200/90 hover:border-purple-200 transition-all duration-200 shadow-xs space-y-3"
                     >
-                      Post Review
-                    </button>
-                    <button
-                      type="button"
-                      onClick={sendReviewViaWhatsApp}
-                      className="w-full sm:w-auto py-3 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs transition-all flex items-center justify-center gap-2 shadow-md"
-                    >
-                      <MessageCircle className="w-4 h-4" />
-                      <span>Send via WhatsApp</span>
-                    </button>
-                  </div>
-                </form>
+                      <div className="flex items-start justify-between gap-3">
+                        <div>
+                          <h5 className="font-bold text-slate-900 font-outfit text-sm sm:text-base">
+                            {rev.fullName}
+                          </h5>
+                          <div className="flex flex-wrap items-center gap-2 text-slate-500 text-xs mt-0.5">
+                            {rev.destination && (
+                              <span className="inline-flex items-center gap-1 font-semibold text-purple-700 bg-purple-100/70 px-2 py-0.5 rounded-md text-[11px]">
+                                <MapPin className="w-3 h-3 text-purple-600" />
+                                {rev.destination}
+                              </span>
+                            )}
+                            {rev.holidayType && (
+                              <span className="text-slate-500 text-[11px] font-medium">
+                                • {rev.holidayType}
+                              </span>
+                            )}
+                          </div>
+                        </div>
+
+                        <div className="flex flex-col items-end gap-1 shrink-0">
+                          <div className="flex text-amber-400" aria-label={`${rev.rating} out of 5 stars`}>
+                            {[...Array(5)].map((_, i) => (
+                              <Star
+                                key={i}
+                                className={`w-3.5 h-3.5 ${
+                                  i < rev.rating
+                                    ? 'fill-amber-400 text-amber-400'
+                                    : 'fill-slate-200 text-slate-200'
+                                }`}
+                              />
+                            ))}
+                          </div>
+                          {rev.date && (
+                            <span className="text-[11px] text-slate-400 font-medium flex items-center gap-1">
+                              <Calendar className="w-3 h-3" />
+                              {rev.date}
+                            </span>
+                          )}
+                        </div>
+                      </div>
+
+                      <p className="text-slate-700 text-xs sm:text-sm leading-relaxed font-normal italic">
+                        &ldquo;{rev.feedback}&rdquo;
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+
+          </div>
+
+          {/* Right Column (5 cols): Streamlined "Share Your Experience" Form */}
+          <div className="lg:col-span-5 bg-gradient-to-br from-slate-900 via-slate-900 to-purple-950 text-white rounded-3xl p-6 sm:p-8 shadow-xl border border-slate-800">
+            <div>
+              <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-cyan-400 mb-2">
+                <Sparkles className="w-4 h-4" />
+                <span>Client Feedback</span>
+              </div>
+
+              <h3 className="text-xl sm:text-2xl font-bold font-outfit text-white tracking-tight">
+                Share Your Experience
+              </h3>
+              
+              <p className="mt-1.5 text-xs sm:text-sm text-slate-300 leading-relaxed font-normal">
+                Traveled with us? Tell us about your experience.
+              </p>
+
+              {/* Inline Published Success Alert */}
+              {showToast && (
+                <div className="mt-4 p-4 rounded-xl bg-emerald-950/80 border border-emerald-500/60 text-xs text-emerald-200 flex items-center gap-2.5 animate-in fade-in duration-200">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                  <span>Thank you! Your review has been published.</span>
+                </div>
               )}
 
+              <form onSubmit={handleSubmitReview} className="mt-6 space-y-4">
+                {/* 1. Full Name * */}
+                <div>
+                  <label htmlFor="review-fullname" className="block text-xs font-semibold text-slate-200 mb-1.5">
+                    Full Name *
+                  </label>
+                  <input
+                    id="review-fullname"
+                    type="text"
+                    required
+                    placeholder="e.g., Sarah Jenkins"
+                    value={fullName}
+                    onChange={(e) => setFullName(e.target.value)}
+                    className="w-full text-xs sm:text-sm px-4 py-3 rounded-xl bg-slate-800/90 border border-slate-700/80 text-white focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent placeholder:text-slate-500 transition-all shadow-inner"
+                  />
+                  {errors.fullName && (
+                    <p className="text-[11px] text-rose-400 mt-1">{errors.fullName}</p>
+                  )}
+                </div>
+
+                {/* 2. Holiday Type (dropdown) & 3. Destination */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                  <div>
+                    <label htmlFor="review-holiday-type" className="block text-xs font-semibold text-slate-200 mb-1.5">
+                      Holiday Type
+                    </label>
+                    <select
+                      id="review-holiday-type"
+                      value={holidayType}
+                      onChange={(e) => setHolidayType(e.target.value)}
+                      className="w-full text-xs sm:text-sm px-3.5 py-3 rounded-xl bg-slate-800/90 border border-slate-700/80 text-white focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent transition-all shadow-inner"
+                    >
+                      <option value="Holiday Package">Holiday Package</option>
+                      <option value="Island Getaway">Island Getaway</option>
+                      <option value="European Tour">European Tour</option>
+                      <option value="Safari / Wildlife">Safari / Wildlife</option>
+                      <option value="Ocean Cruise">Ocean Cruise</option>
+                      <option value="Custom Itinerary">Custom Itinerary</option>
+                      <option value="Flights & Hotels">Flights & Hotels</option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <label htmlFor="review-destination" className="block text-xs font-semibold text-slate-200 mb-1.5">
+                      Destination
+                    </label>
+                    <input
+                      id="review-destination"
+                      type="text"
+                      placeholder="e.g., Mauritius, Italy"
+                      value={destination}
+                      onChange={(e) => setDestination(e.target.value)}
+                      className="w-full text-xs sm:text-sm px-4 py-3 rounded-xl bg-slate-800/90 border border-slate-700/80 text-white focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent placeholder:text-slate-500 transition-all shadow-inner"
+                    />
+                  </div>
+                </div>
+
+                {/* 4. Star Rating * */}
+                <div>
+                  <div className="block text-xs font-semibold text-slate-200 mb-1.5">
+                    Star Rating *
+                  </div>
+                  <div className="flex items-center gap-2 py-1">
+                    {[1, 2, 3, 4, 5].map((star) => (
+                      <button
+                        key={star}
+                        type="button"
+                        aria-label={`Select ${star} stars`}
+                        onMouseEnter={() => setHoverRating(star)}
+                        onMouseLeave={() => setHoverRating(0)}
+                        onClick={() => setRating(star)}
+                        className="p-1 focus:outline-none transition-transform hover:scale-115 active:scale-95 cursor-pointer"
+                      >
+                        <Star
+                          className={`w-6 h-6 transition-colors ${
+                            star <= (hoverRating || rating)
+                              ? 'fill-amber-400 text-amber-400'
+                              : 'text-slate-600 hover:text-slate-400'
+                          }`}
+                        />
+                      </button>
+                    ))}
+                    <span className="text-xs font-bold text-amber-300 ml-2">
+                      {hoverRating || rating} / 5 Stars
+                    </span>
+                  </div>
+                </div>
+
+                {/* 5. Your Experience & Feedback * */}
+                <div>
+                  <label htmlFor="review-feedback" className="block text-xs font-semibold text-slate-200 mb-1.5">
+                    Your Experience &amp; Feedback *
+                  </label>
+                  <textarea
+                    id="review-feedback"
+                    required
+                    rows={4}
+                    placeholder="Share details about your trip, accommodation, or booking service..."
+                    value={feedback}
+                    onChange={(e) => setFeedback(e.target.value)}
+                    className="w-full text-xs sm:text-sm p-4 rounded-xl bg-slate-800/90 border border-slate-700/80 text-white focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent placeholder:text-slate-500 leading-relaxed transition-all shadow-inner"
+                  />
+                  {errors.feedback && (
+                    <p className="text-[11px] text-rose-400 mt-1">{errors.feedback}</p>
+                  )}
+                </div>
+
+                {/* Submit Button */}
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="w-full py-3.5 px-5 rounded-xl font-bold text-xs sm:text-sm uppercase tracking-wider text-white bg-gradient-to-r from-purple-600 via-indigo-600 to-purple-700 hover:from-purple-500 hover:to-indigo-500 shadow-lg shadow-purple-900/30 transition-all flex items-center justify-center gap-2 active:scale-98 disabled:opacity-60 cursor-pointer"
+                >
+                  {isSubmitting ? (
+                    <span>SUBMITTING...</span>
+                  ) : (
+                    <>
+                      <Send className="w-4 h-4" />
+                      <span>SUBMIT REVIEW</span>
+                    </>
+                  )}
+                </button>
+
+                <p className="text-[11px] text-slate-400 text-center font-normal">
+                  ✨ Direct client submission.
+                </p>
+              </form>
             </div>
           </div>
-        )}
+
+        </div>
 
       </div>
     </section>

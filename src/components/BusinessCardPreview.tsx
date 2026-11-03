@@ -126,7 +126,7 @@ export default function BusinessCardPreview() {
             <div className="relative z-10 flex flex-col items-center">
               <div className="w-18 h-18 rounded-full bg-gradient-to-tr from-purple-600 via-indigo-600 to-cyan-400 p-0.5 mb-2.5 shadow-lg overflow-hidden">
                 <img
-                  src="/assets/cathy_lawrence.jpg"
+                  src="/assets/aistudio/39e6a562-c982-4a40-a663-a2bcf499f81e_ff87c47f.png"
                   alt="Cathy Lawrence - Travel Agent"
                   className="w-full h-full rounded-full object-cover object-top"
                   referrerPolicy="no-referrer"

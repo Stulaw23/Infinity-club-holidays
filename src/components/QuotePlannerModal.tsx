@@ -37,6 +37,9 @@ export default function QuotePlannerModal({
   });
 
   const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [refCode, setRefCode] = useState('');
+  const [validationErrors, setValidationErrors] = useState<{ fullName?: string; phone?: string }>({});
 
   useEffect(() => {
     if (initialPackageTitle) {
@@ -62,6 +65,19 @@ export default function QuotePlannerModal({
     });
   };
 
+  const validate = () => {
+    const errs: { fullName?: string; phone?: string } = {};
+    if (!formData.fullName.trim() || formData.fullName.trim().length < 2) {
+      errs.fullName = 'Please enter your full name.';
+    }
+    const digits = formData.phone.replace(/\D/g, '');
+    if (!formData.phone.trim() || digits.length < 8) {
+      errs.phone = 'Please enter a valid phone or WhatsApp number.';
+    }
+    setValidationErrors(errs);
+    return Object.keys(errs).length === 0;
+  };
+
   const generateWhatsAppMessage = () => {
     return `*TRAVEL ENQUIRY - Infinity Club Holidays*\n` +
       `--------------------------------\n` +
@@ -81,6 +97,9 @@ export default function QuotePlannerModal({
 
   const handleSendViaWhatsApp = (e: React.FormEvent) => {
     e.preventDefault();
+    if (!validate()) return;
+    const code = `ICH-Q${Math.floor(100000 + Math.random() * 900000)}`;
+    setRefCode(code);
     const msg = generateWhatsAppMessage();
     const url = `https://wa.me/${BUSINESS_INFO.whatsappNumber}?text=${encodeURIComponent(msg)}`;
     window.open(url, '_blank');
@@ -89,8 +108,16 @@ export default function QuotePlannerModal({
 
   const handleSubmitDirect = (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
+    if (!validate()) return;
+    setIsSubmitting(true);
+    const code = `ICH-Q${Math.floor(100000 + Math.random() * 900000)}`;
+    setTimeout(() => {
+      setIsSubmitting(false);
+      setRefCode(code);
+      setSubmitted(true);
+    }, 500);
   };
+
 
   return (
     <div className="fixed inset-0 z-50 overflow-y-auto bg-black/75 backdrop-blur-md flex items-center justify-center p-3 sm:p-6 animate-in fade-in duration-200">
@@ -125,10 +152,15 @@ export default function QuotePlannerModal({
               <CheckCircle2 className="w-10 h-10" />
             </div>
             <h3 className="text-2xl font-bold font-outfit text-slate-900">
-              Enquiry Received!
+              Trip Request Received!
             </h3>
+            {refCode && (
+              <p className="text-xs font-mono font-bold text-purple-700 bg-purple-50 inline-block px-3 py-1 rounded-full border border-purple-200">
+                Reference Code: #{refCode}
+              </p>
+            )}
             <p className="text-sm text-slate-600 max-w-md mx-auto leading-relaxed">
-              Thank you, <strong>{formData.fullName || 'friend'}</strong>! Cathy Lawrence from Infinity Club Holidays is reviewing your travel requirements and will be in touch promptly.
+              Thank you, <strong>{formData.fullName || 'friend'}</strong>! Cathy Lawrence from Infinity Club Holidays is reviewing your trip request for <strong>{formData.destinationDetail || formData.destinationType}</strong> and will be in touch with a custom proposal.
             </p>
 
             <div className="p-4 rounded-2xl bg-purple-50 border border-purple-100 max-w-md mx-auto text-left text-xs space-y-2">
@@ -401,9 +433,15 @@ export default function QuotePlannerModal({
                     required
                     placeholder="e.g. Cathy Botha"
                     value={formData.fullName}
-                    onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
+                    onChange={(e) => {
+                      setFormData({ ...formData, fullName: e.target.value });
+                      if (validationErrors.fullName) setValidationErrors({ ...validationErrors, fullName: undefined });
+                    }}
                     className="w-full text-xs sm:text-sm px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-purple-500"
                   />
+                  {validationErrors.fullName && (
+                    <p className="text-[11px] text-rose-500 mt-1">{validationErrors.fullName}</p>
+                  )}
                 </div>
 
                 <div>
@@ -416,9 +454,15 @@ export default function QuotePlannerModal({
                     required
                     placeholder="e.g. 082 123 4567"
                     value={formData.phone}
-                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                    onChange={(e) => {
+                      setFormData({ ...formData, phone: e.target.value });
+                      if (validationErrors.phone) setValidationErrors({ ...validationErrors, phone: undefined });
+                    }}
                     className="w-full text-xs sm:text-sm px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-purple-500"
                   />
+                  {validationErrors.phone && (
+                    <p className="text-[11px] text-rose-500 mt-1">{validationErrors.phone}</p>
+                  )}
                 </div>
               </div>
 
@@ -473,7 +517,7 @@ export default function QuotePlannerModal({
             <div className="pt-4 border-t border-slate-200 flex flex-col sm:flex-row items-center gap-3">
               <button
                 type="submit"
-                className="w-full sm:flex-1 py-3.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs sm:text-sm transition-all flex items-center justify-center gap-2 shadow-lg shadow-emerald-700/20"
+                className="w-full sm:flex-1 py-3.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs sm:text-sm transition-all flex items-center justify-center gap-2 shadow-lg shadow-emerald-700/20 active:scale-98 cursor-pointer"
               >
                 <MessageCircle className="w-4 h-4" />
                 <span>Send Directly via WhatsApp</span>
@@ -482,10 +526,17 @@ export default function QuotePlannerModal({
               <button
                 type="button"
                 onClick={handleSubmitDirect}
-                className="w-full sm:w-auto py-3.5 px-5 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-bold text-xs sm:text-sm uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-md shadow-purple-600/20"
+                disabled={isSubmitting}
+                className="w-full sm:w-auto py-3.5 px-5 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-bold text-xs sm:text-sm uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-md shadow-purple-600/20 active:scale-98 disabled:opacity-60 cursor-pointer"
               >
-                <Send className="w-4 h-4" />
-                <span>Submit Enquiry Form</span>
+                {isSubmitting ? (
+                  <span>Submitting...</span>
+                ) : (
+                  <>
+                    <Send className="w-4 h-4" />
+                    <span>Submit Enquiry Form</span>
+                  </>
+                )}
               </button>
             </div>
 

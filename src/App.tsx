@@ -12,7 +12,6 @@ import FloatingWhatsApp from './components/FloatingWhatsApp';
 import Footer from './components/Footer';
 import QuotePlannerModal from './components/QuotePlannerModal';
 import BugReportModal from './components/BugReportModal';
-import BugReportButton from './components/BugReportButton';
 import RageClickToast from './components/RageClickToast';
 import { HolidayPackage } from './types';
 
@@ -36,7 +35,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-800 flex flex-col font-sans selection:bg-purple-600 selection:text-white">
+    <div className="min-h-screen bg-slate-50 text-slate-800 flex flex-col font-sans selection:bg-purple-600 selection:text-white overflow-x-hidden w-full">
       {/* Primary Sticky Header */}
       <Navbar onOpenQuoteModal={handleOpenQuoteModal} />
 
@@ -54,7 +53,7 @@ export default function App() {
         {/* Products & Services Comprehensive Breakdown */}
         <ServicesSection onOpenQuoteModal={handleOpenQuoteModal} />
 
-        {/* 21 Years of Travel Experience & Cathy Lawrence Showcase */}
+        {/* 21 Years of Travel Experience & Philosophy */}
         <AboutExperience onOpenQuoteModal={() => handleOpenQuoteModal()} />
 
         {/* Destinations Spotlight (Local SA & International) */}
@@ -75,9 +74,6 @@ export default function App() {
 
       {/* Floating WhatsApp Action Button & Mobile Sticky Bar */}
       <FloatingWhatsApp onOpenQuoteModal={() => handleOpenQuoteModal()} />
-
-      {/* Floating Bug Report Trigger Button */}
-      <BugReportButton onOpen={() => setBugReportModalOpen(true)} />
 
       {/* Proactive Rage Click Toast Notification */}
       <RageClickToast onOpenBugReport={() => setBugReportModalOpen(true)} />
