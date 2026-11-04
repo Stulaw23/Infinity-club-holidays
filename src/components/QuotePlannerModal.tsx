@@ -118,22 +118,21 @@ export default function QuotePlannerModal({
     }, 500);
   };
 
-
   return (
     <div className="fixed inset-0 z-50 overflow-y-auto bg-black/75 backdrop-blur-md flex items-center justify-center p-3 sm:p-6 animate-in fade-in duration-200">
       <div className="relative bg-white w-full max-w-2xl rounded-3xl overflow-hidden shadow-2xl border border-slate-200 my-auto">
         
-        {/* Header Bar */}
-        <div className="bg-gradient-to-r from-purple-700 via-indigo-700 to-slate-900 p-6 text-white relative">
+        {/* Header Bar (Ocean Blue & Deep Slate) */}
+        <div className="bg-gradient-to-r from-slate-900 via-sky-950 to-teal-950 p-6 text-white relative">
           <button
             onClick={onClose}
-            className="absolute top-4 right-4 p-2 rounded-full bg-white/10 hover:bg-white/20 text-white transition-all"
+            className="absolute top-4 right-4 p-2 rounded-full bg-white/10 hover:bg-white/20 text-white transition-all cursor-pointer"
             aria-label="Close quote modal"
           >
             <X className="w-5 h-5" />
           </button>
 
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/15 text-cyan-200 text-xs font-semibold mb-2">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/15 text-teal-200 text-xs font-semibold mb-2">
             <Sparkles className="w-3.5 h-3.5" />
             <span>21 Years Experience • 100% Free Custom Quotes</span>
           </div>
@@ -141,7 +140,7 @@ export default function QuotePlannerModal({
           <h2 className="text-2xl sm:text-3xl font-extrabold font-outfit">
             Plan My Holiday / Request a Quote
           </h2>
-          <p className="text-xs sm:text-sm text-purple-100 mt-1 max-w-lg">
+          <p className="text-xs sm:text-sm text-slate-200 mt-1 max-w-lg">
             Tell Cathy about your dream holiday and budget. We will personally research, package, and present the best options.
           </p>
         </div>
@@ -155,7 +154,7 @@ export default function QuotePlannerModal({
               Trip Request Received!
             </h3>
             {refCode && (
-              <p className="text-xs font-mono font-bold text-purple-700 bg-purple-50 inline-block px-3 py-1 rounded-full border border-purple-200">
+              <p className="text-xs font-mono font-bold text-sky-800 bg-sky-50 inline-block px-3 py-1 rounded-full border border-sky-200">
                 Reference Code: #{refCode}
               </p>
             )}
@@ -163,8 +162,8 @@ export default function QuotePlannerModal({
               Thank you, <strong>{formData.fullName || 'friend'}</strong>! Cathy Lawrence from Infinity Club Holidays is reviewing your trip request for <strong>{formData.destinationDetail || formData.destinationType}</strong> and will be in touch with a custom proposal.
             </p>
 
-            <div className="p-4 rounded-2xl bg-purple-50 border border-purple-100 max-w-md mx-auto text-left text-xs space-y-2">
-              <div className="font-bold text-purple-900">Need an instant response?</div>
+            <div className="p-4 rounded-2xl bg-sky-50 border border-sky-100 max-w-md mx-auto text-left text-xs space-y-2">
+              <div className="font-bold text-sky-900">Need an instant response?</div>
               <p className="text-slate-600">
                 You can chat directly with Cathy right now on WhatsApp or call her during office hours (Mon-Fri 8am-6pm).
               </p>
@@ -173,14 +172,14 @@ export default function QuotePlannerModal({
                   href={`https://wa.me/${BUSINESS_INFO.whatsappNumber}?text=${encodeURIComponent(generateWhatsAppMessage())}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="px-4 py-2 bg-emerald-600 text-white rounded-xl font-bold text-xs flex items-center gap-1.5 shadow-sm"
+                  className="px-4 py-2 bg-emerald-600 text-white rounded-xl font-bold text-xs flex items-center gap-1.5 shadow-xs"
                 >
                   <MessageCircle className="w-3.5 h-3.5" />
                   <span>Open In WhatsApp</span>
                 </a>
                 <a
                   href={`tel:${BUSINESS_INFO.phoneTel}`}
-                  className="px-4 py-2 bg-purple-600 text-white rounded-xl font-bold text-xs flex items-center gap-1.5"
+                  className="px-4 py-2 bg-sky-600 text-white rounded-xl font-bold text-xs flex items-center gap-1.5"
                 >
                   <Phone className="w-3.5 h-3.5" />
                   <span>Call {BUSINESS_INFO.phoneFormatted}</span>
@@ -194,7 +193,7 @@ export default function QuotePlannerModal({
                   setSubmitted(false);
                   onClose();
                 }}
-                className="px-6 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition-colors"
+                className="px-6 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition-colors cursor-pointer"
               >
                 Close Window
               </button>
@@ -205,8 +204,8 @@ export default function QuotePlannerModal({
             
             {/* Step 1: Destination & Holiday Type */}
             <div className="space-y-3">
-              <div className="text-xs font-bold text-purple-700 uppercase tracking-wider flex items-center gap-2">
-                <MapPin className="w-4 h-4" />
+              <div className="text-xs font-bold text-sky-800 uppercase tracking-wider flex items-center gap-2">
+                <MapPin className="w-4 h-4 text-sky-600" />
                 <span>1. Where Would You Like To Go?</span>
               </div>
 
@@ -219,7 +218,7 @@ export default function QuotePlannerModal({
                     id="planner-destination-type"
                     value={formData.destinationType}
                     onChange={(e) => setFormData({ ...formData, destinationType: e.target.value as any })}
-                    className="w-full text-xs sm:text-sm px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-purple-500 bg-white"
+                    className="w-full text-xs sm:text-sm px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-sky-500 bg-white"
                   >
                     <option value="island">Tropical Island (Mauritius / Zanzibar / Maldives)</option>
                     <option value="local-sa">Local South Africa (Kruger / Cape / Garden Route)</option>
@@ -240,7 +239,7 @@ export default function QuotePlannerModal({
                     placeholder="e.g. Mauritius All-Inclusive or Kruger Safari"
                     value={formData.destinationDetail}
                     onChange={(e) => setFormData({ ...formData, destinationDetail: e.target.value })}
-                    className="w-full text-xs sm:text-sm px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    className="w-full text-xs sm:text-sm px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-sky-500"
                   />
                 </div>
               </div>
@@ -248,8 +247,8 @@ export default function QuotePlannerModal({
 
             {/* Step 2: Dates & Travelers */}
             <div className="space-y-3 pt-3 border-t border-slate-100">
-              <div className="text-xs font-bold text-purple-700 uppercase tracking-wider flex items-center gap-2">
-                <Calendar className="w-4 h-4" />
+              <div className="text-xs font-bold text-sky-800 uppercase tracking-wider flex items-center gap-2">
+                <Calendar className="w-4 h-4 text-sky-600" />
                 <span>2. Dates & Travel Party</span>
               </div>
 
@@ -262,7 +261,7 @@ export default function QuotePlannerModal({
                     id="planner-departure-city"
                     value={formData.departureCity}
                     onChange={(e) => setFormData({ ...formData, departureCity: e.target.value })}
-                    className="w-full text-xs sm:text-sm px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-purple-500 bg-white"
+                    className="w-full text-xs sm:text-sm px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-sky-500 bg-white"
                   >
                     <option value="Cape Town (CPT)">Cape Town (CPT)</option>
                     <option value="Johannesburg (JNB)">Johannesburg (JNB / OR Tambo)</option>
@@ -283,7 +282,7 @@ export default function QuotePlannerModal({
                     placeholder="e.g. Dec 2026 or Easter Holidays"
                     value={formData.travelDates}
                     onChange={(e) => setFormData({ ...formData, travelDates: e.target.value })}
-                    className="w-full text-xs sm:text-sm px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    className="w-full text-xs sm:text-sm px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-sky-500"
                   />
                 </div>
 
@@ -295,7 +294,7 @@ export default function QuotePlannerModal({
                     id="planner-duration-nights"
                     value={formData.durationNights}
                     onChange={(e) => setFormData({ ...formData, durationNights: e.target.value })}
-                    className="w-full text-xs sm:text-sm px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-purple-500 bg-white"
+                    className="w-full text-xs sm:text-sm px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-sky-500 bg-white"
                   >
                     <option value="Weekend / 3 Nights">Weekend / 3 Nights</option>
                     <option value="5 Nights">5 Nights</option>
@@ -319,7 +318,7 @@ export default function QuotePlannerModal({
                     max={30}
                     value={formData.adults}
                     onChange={(e) => setFormData({ ...formData, adults: parseInt(e.target.value) || 1 })}
-                    className="w-full text-xs sm:text-sm px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    className="w-full text-xs sm:text-sm px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-sky-500"
                   />
                 </div>
 
@@ -334,7 +333,7 @@ export default function QuotePlannerModal({
                     max={15}
                     value={formData.children}
                     onChange={(e) => setFormData({ ...formData, children: parseInt(e.target.value) || 0 })}
-                    className="w-full text-xs sm:text-sm px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    className="w-full text-xs sm:text-sm px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-sky-500"
                   />
                 </div>
 
@@ -349,7 +348,7 @@ export default function QuotePlannerModal({
                     disabled={formData.children === 0}
                     value={formData.childrenAges}
                     onChange={(e) => setFormData({ ...formData, childrenAges: e.target.value })}
-                    className="w-full text-xs sm:text-sm px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-purple-500 disabled:bg-slate-100"
+                    className="w-full text-xs sm:text-sm px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-sky-500 disabled:bg-slate-100"
                   />
                 </div>
               </div>
@@ -357,8 +356,8 @@ export default function QuotePlannerModal({
 
             {/* Step 3: Holiday Style & Budget */}
             <div className="space-y-3 pt-3 border-t border-slate-100">
-              <div className="text-xs font-bold text-purple-700 uppercase tracking-wider flex items-center gap-2">
-                <Sparkles className="w-4 h-4" />
+              <div className="text-xs font-bold text-sky-800 uppercase tracking-wider flex items-center gap-2">
+                <Sparkles className="w-4 h-4 text-sky-600" />
                 <span>3. Style & Budget Preference</span>
               </div>
 
@@ -382,9 +381,9 @@ export default function QuotePlannerModal({
                       key={style}
                       type="button"
                       onClick={() => handleTripStyleToggle(style)}
-                      className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-all ${
+                      className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
                         formData.tripStyle.includes(style)
-                          ? 'bg-purple-600 text-white shadow-sm'
+                          ? 'bg-sky-600 text-white shadow-xs'
                           : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
                       }`}
                     >
@@ -403,7 +402,7 @@ export default function QuotePlannerModal({
                   id="planner-budget-range"
                   value={formData.budgetPerPerson}
                   onChange={(e) => setFormData({ ...formData, budgetPerPerson: e.target.value })}
-                  className="w-full text-xs sm:text-sm px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-purple-500 bg-white"
+                  className="w-full text-xs sm:text-sm px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-sky-500 bg-white"
                 >
                   <option value="Under R12,000">Affordable / Under R12,000</option>
                   <option value="R12,000 - R20,000">R12,000 - R20,000</option>
@@ -417,8 +416,8 @@ export default function QuotePlannerModal({
 
             {/* Step 4: Contact Details */}
             <div className="space-y-3 pt-3 border-t border-slate-100">
-              <div className="text-xs font-bold text-purple-700 uppercase tracking-wider flex items-center gap-2">
-                <Users className="w-4 h-4" />
+              <div className="text-xs font-bold text-sky-800 uppercase tracking-wider flex items-center gap-2">
+                <Users className="w-4 h-4 text-sky-600" />
                 <span>4. Your Contact Details</span>
               </div>
 
@@ -437,7 +436,7 @@ export default function QuotePlannerModal({
                       setFormData({ ...formData, fullName: e.target.value });
                       if (validationErrors.fullName) setValidationErrors({ ...validationErrors, fullName: undefined });
                     }}
-                    className="w-full text-xs sm:text-sm px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    className="w-full text-xs sm:text-sm px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-sky-500"
                   />
                   {validationErrors.fullName && (
                     <p className="text-[11px] text-rose-500 mt-1">{validationErrors.fullName}</p>
@@ -458,7 +457,7 @@ export default function QuotePlannerModal({
                       setFormData({ ...formData, phone: e.target.value });
                       if (validationErrors.phone) setValidationErrors({ ...validationErrors, phone: undefined });
                     }}
-                    className="w-full text-xs sm:text-sm px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    className="w-full text-xs sm:text-sm px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-sky-500"
                   />
                   {validationErrors.phone && (
                     <p className="text-[11px] text-rose-500 mt-1">{validationErrors.phone}</p>
@@ -477,7 +476,7 @@ export default function QuotePlannerModal({
                     placeholder="e.g. yourname@gmail.com"
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    className="w-full text-xs sm:text-sm px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    className="w-full text-xs sm:text-sm px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-sky-500"
                   />
                 </div>
 
@@ -489,7 +488,7 @@ export default function QuotePlannerModal({
                     id="planner-preferred-contact"
                     value={formData.preferredContact}
                     onChange={(e) => setFormData({ ...formData, preferredContact: e.target.value as any })}
-                    className="w-full text-xs sm:text-sm px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-purple-500 bg-white"
+                    className="w-full text-xs sm:text-sm px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-sky-500 bg-white"
                   >
                     <option value="whatsapp">WhatsApp (Fastest response)</option>
                     <option value="call">Phone Call</option>
@@ -508,7 +507,7 @@ export default function QuotePlannerModal({
                   placeholder="Tell us about special occasions (anniversary, honeymoon), flight preferences, or must-have activities..."
                   value={formData.additionalNotes}
                   onChange={(e) => setFormData({ ...formData, additionalNotes: e.target.value })}
-                  className="w-full text-xs sm:text-sm p-3 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  className="w-full text-xs sm:text-sm p-3 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-sky-500"
                 />
               </div>
             </div>
@@ -527,7 +526,7 @@ export default function QuotePlannerModal({
                 type="button"
                 onClick={handleSubmitDirect}
                 disabled={isSubmitting}
-                className="w-full sm:w-auto py-3.5 px-5 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-bold text-xs sm:text-sm uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-md shadow-purple-600/20 active:scale-98 disabled:opacity-60 cursor-pointer"
+                className="w-full sm:w-auto py-3.5 px-5 rounded-xl bg-sky-600 hover:bg-sky-700 text-white font-bold text-xs sm:text-sm uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-md shadow-sky-600/20 active:scale-98 disabled:opacity-60 cursor-pointer"
               >
                 {isSubmitting ? (
                   <span>Submitting...</span>

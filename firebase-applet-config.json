@@ -1,0 +1,12 @@
+{
+  "projectId": "infinity-club-holidays",
+  "appId": "1:876695113895:web:d4e3c6c3598579687d4b82",
+  "apiKey": "AIzaSyAkDPpsSaXIeaNdJMSsyBFWEwCxXnfY54M",
+  "authDomain": "infinity-club-holidays.firebaseapp.com",
+  "firestoreDatabaseId": "(default)",
+  "storageBucket": "infinity-club-holidays.firebasestorage.app",
+  "messagingSenderId": "876695113895",
+  "measurementId": "G-VK9SLE4L9W",
+  "oAuthClientId": "",
+  "recaptchaSiteKey": ""
+}

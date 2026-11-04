@@ -1,5 +1,6 @@
 export type DestinationCategory =
   | 'all'
+  | 'egypt'
   | 'contiki'
   | 'costsaver'
   | 'trafalgar'
@@ -15,15 +16,23 @@ export interface HolidayPackage {
   title: string;
   subtitle: string;
   category: DestinationCategory;
-  operator?: 'Contiki' | 'Costsaver' | 'Trafalgar' | 'Insight Vacations' | string;
-  brand?: 'contiki' | 'costsaver' | 'trafalgar' | 'insight';
+  operator?: 'Contiki' | 'Costsaver' | 'Trafalgar' | 'Insight Vacations' | 'Norwegian Cruise Line' | string;
+  brand?: 'contiki' | 'costsaver' | 'trafalgar' | 'insight' | 'ncl' | string;
   destination: string;
   duration: string;
   priceZAR: number;
+  priceUSD?: number;
+  currency?: string;
+  priceDisplay?: string;
   priceNote?: string;
+  callToAction?: string;
   badge?: string;
   imageUrl: string;
   photoUrl?: string;
+  galleryImages?: string[];
+  hotelStars?: number;
+  resortName?: string;
+  mealUpgradeOption?: string;
   userJpg?: string;
   featured?: boolean;
   description: string;
@@ -75,6 +84,7 @@ export interface ReviewData {
   rating: number;
   feedback: string;
   date: string;
+  createdAt?: any;
 }
 
 export interface QuoteRequest {

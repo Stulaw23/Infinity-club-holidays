@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { MessageCircle, Phone, Calendar, X, Sparkles } from 'lucide-react';
+import { MessageCircle, Phone, Calendar, X } from 'lucide-react';
 import { BUSINESS_INFO } from '../data/travelData';
 
 interface FloatingWhatsAppProps {
@@ -19,16 +19,16 @@ export default function FloatingWhatsApp({ onOpenQuoteModal }: FloatingWhatsAppP
       <div className="fixed bottom-6 right-6 z-40 hidden sm:flex flex-col items-end gap-2">
         {/* Floating invitation popup */}
         {!bubbleDismissed && (
-          <div className="relative bg-white text-slate-800 p-3.5 rounded-2xl shadow-2xl border border-slate-200 max-w-xs animate-in slide-in-from-bottom-3 duration-300">
+          <div className="relative bg-white text-slate-800 p-3.5 rounded-2xl shadow-xl border border-slate-200 max-w-xs animate-in slide-in-from-bottom-3 duration-300">
             <button
               onClick={() => setBubbleDismissed(true)}
-              className="absolute -top-2 -right-2 p-1 bg-slate-200 hover:bg-slate-300 rounded-full text-slate-600 transition-colors"
+              className="absolute -top-2 -right-2 p-1 bg-slate-100 hover:bg-slate-200 rounded-full text-slate-500 transition-colors cursor-pointer"
               aria-label="Dismiss chat prompt"
             >
               <X className="w-3 h-3" />
             </button>
             <div className="flex items-start gap-2.5">
-              <div className="w-8 h-8 rounded-full bg-purple-600 text-white flex items-center justify-center font-bold text-xs shrink-0 shadow-sm">
+              <div className="w-8 h-8 rounded-full bg-sky-600 text-white flex items-center justify-center font-bold text-xs shrink-0 shadow-xs">
                 CL
               </div>
               <div className="text-xs">
@@ -49,11 +49,11 @@ export default function FloatingWhatsApp({ onOpenQuoteModal }: FloatingWhatsAppP
           href={whatsappUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="group relative flex items-center gap-3 px-4 py-3 bg-emerald-600 hover:bg-emerald-500 text-white rounded-full shadow-2xl shadow-emerald-600/40 hover:scale-105 active:scale-95 transition-all duration-300"
+          className="group relative flex items-center gap-2.5 px-4 py-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-full shadow-lg shadow-emerald-600/30 hover:scale-105 active:scale-95 transition-all duration-300"
           aria-label="Chat on WhatsApp with Cathy Lawrence"
         >
-          <span className="absolute -top-1 -right-1 w-3.5 h-3.5 bg-cyan-400 border-2 border-white rounded-full animate-ping" />
-          <MessageCircle className="w-6 h-6 fill-white" />
+          <span className="absolute -top-1 -right-1 w-3.5 h-3.5 bg-teal-400 border-2 border-white rounded-full animate-ping" />
+          <MessageCircle className="w-5 h-5 fill-white" />
           <span className="text-xs font-bold tracking-wide pr-1">
             WhatsApp Cathy
           </span>
@@ -77,13 +77,13 @@ export default function FloatingWhatsApp({ onOpenQuoteModal }: FloatingWhatsAppP
             href={`tel:${BUSINESS_INFO.phoneTel}`}
             className="flex flex-col items-center justify-center py-2 px-1 rounded-xl bg-slate-900 text-white text-xs font-bold active:scale-95 transition-all"
           >
-            <Phone className="w-4 h-4 mb-0.5 text-cyan-400" />
+            <Phone className="w-4 h-4 mb-0.5 text-teal-300" />
             <span>Call Cathy</span>
           </a>
 
           <button
             onClick={onOpenQuoteModal}
-            className="flex flex-col items-center justify-center py-2 px-1 rounded-xl bg-purple-600 text-white text-xs font-bold active:scale-95 transition-all"
+            className="flex flex-col items-center justify-center py-2 px-1 rounded-xl bg-sky-600 text-white text-xs font-bold active:scale-95 transition-all cursor-pointer"
           >
             <Calendar className="w-4 h-4 mb-0.5" />
             <span>Get Quote</span>

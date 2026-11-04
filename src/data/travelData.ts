@@ -35,7 +35,9 @@ import travelSpecialsRaw from './travelSpecials.json';
 
 export const PACKAGES_DATA: HolidayPackage[] = (travelSpecialsRaw as any[]).map((pkg) => ({
   ...pkg,
-  priceZAR: pkg.price ?? pkg.priceZAR ?? 0,
+  priceZAR: pkg.currency === 'USD' ? 0 : (pkg.price ?? pkg.priceZAR ?? 0),
+  priceUSD: pkg.currency === 'USD' ? (pkg.price || 1218) : undefined,
+  priceDisplay: pkg.priceDisplay || (pkg.price ? `From R${Number(pkg.price).toLocaleString()} pp` : 'Enquire for Price'),
 }));
 
 
@@ -198,6 +200,16 @@ export const DESTINATIONS_SPOTLIGHT: DestinationSpotlight[] = [
     tagline: "Incredible value, sacred temples, and lush tropical islands",
     bestTimeToVisit: "November to April (Thailand) / April to October (Bali)",
     highlights: ["Private pool villas", "Street food & floating markets", "Limestone island hopping"]
+  },
+  {
+    id: "dest-egypt",
+    name: "Egypt & The Nile River",
+    region: "Cairo, Giza, Luxor & Nile Cruise",
+    category: "international",
+    imageUrl: "https://images.unsplash.com/photo-1503177119275-0aa32b3a9368?auto=format&fit=crop&w=800&q=80",
+    tagline: "Great Pyramids of Giza, ancient temples & iconic Nile cruises",
+    bestTimeToVisit: "October to April (Pleasant sunny weather)",
+    highlights: ["Pyramids & Sphinx", "Nile River guided cruises", "Valley of the Kings in Luxor"]
   }
 ];
 

@@ -20,7 +20,7 @@ export default function BusinessCardPreview() {
   return (
     <div id="cathy-lawrence-card" className="w-full max-w-xl mx-auto">
       {/* Physical style card container with subtle shadow and border */}
-      <div className="relative overflow-hidden rounded-2xl bg-white border border-slate-200/90 shadow-2xl transition-all duration-300 hover:shadow-purple-500/10">
+      <div className="relative overflow-hidden rounded-2xl bg-white border border-slate-200 shadow-xl transition-all duration-300 hover:shadow-2xl">
         <div className="flex flex-col md:flex-row min-h-[300px]">
           
           {/* Left information column */}
@@ -43,16 +43,16 @@ export default function BusinessCardPreview() {
                 </div>
                 <a
                   href={`tel:${BUSINESS_INFO.phoneTel}`}
-                  className="flex items-center gap-2 text-sm font-semibold text-slate-800 hover:text-purple-600 transition-colors"
+                  className="flex items-center gap-2 text-sm font-semibold text-slate-800 hover:text-sky-600 transition-colors"
                 >
-                  <Phone className="w-3.5 h-3.5 text-purple-600" />
+                  <Phone className="w-3.5 h-3.5 text-sky-600" />
                   <span>{BUSINESS_INFO.phoneFormatted}</span>
                 </a>
                 <a
                   href={`mailto:${BUSINESS_INFO.email}`}
-                  className="flex items-center gap-2 text-xs font-medium text-slate-700 hover:text-purple-600 transition-colors break-all"
+                  className="flex items-center gap-2 text-xs font-medium text-slate-700 hover:text-sky-600 transition-colors break-all"
                 >
-                  <Mail className="w-3.5 h-3.5 text-cyan-600 shrink-0" />
+                  <Mail className="w-3.5 h-3.5 text-teal-600 shrink-0" />
                   <span>{BUSINESS_INFO.email}</span>
                 </a>
               </div>
@@ -81,14 +81,14 @@ export default function BusinessCardPreview() {
                 href={whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-xs font-semibold shadow-sm transition-all"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-xs font-semibold shadow-xs transition-all"
               >
                 <MessageCircle className="w-3.5 h-3.5" />
                 WhatsApp Cathy
               </a>
               <button
                 onClick={handleCopyDetails}
-                className="inline-flex items-center gap-1.5 px-2.5 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-xs font-medium transition-all"
+                className="inline-flex items-center gap-1.5 px-2.5 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-xs font-medium transition-all cursor-pointer"
                 title="Copy contact card to clipboard"
               >
                 {copied ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
@@ -97,12 +97,12 @@ export default function BusinessCardPreview() {
             </div>
           </div>
 
-          {/* Right graphic sweep - matching Cathy Lawrence's card design */}
-          <div className="relative md:w-56 bg-slate-950 p-6 md:p-8 flex flex-col justify-center items-center text-center overflow-hidden">
-            {/* Organic color curved swooshes in purple & cyan */}
-            <div className="absolute -left-12 -top-12 w-40 h-80 rounded-full bg-purple-700/60 blur-xl pointer-events-none" />
-            <div className="absolute -left-8 top-16 w-32 h-64 rounded-full bg-cyan-500/40 blur-lg pointer-events-none" />
-            <div className="absolute -left-4 bottom-0 w-24 h-48 rounded-full bg-purple-600/50 blur-md pointer-events-none" />
+          {/* Right graphic sweep - matching Cathy Lawrence's card design with ocean blues and teals */}
+          <div className="relative md:w-56 bg-slate-900 p-6 md:p-8 flex flex-col justify-center items-center text-center overflow-hidden">
+            {/* Organic color curved swooshes in ocean teal & vibrant sky blue */}
+            <div className="absolute -left-12 -top-12 w-40 h-80 rounded-full bg-sky-600/40 blur-xl pointer-events-none" />
+            <div className="absolute -left-8 top-16 w-32 h-64 rounded-full bg-teal-500/35 blur-lg pointer-events-none" />
+            <div className="absolute -left-4 bottom-0 w-24 h-48 rounded-full bg-sky-700/40 blur-md pointer-events-none" />
 
             {/* SVG sweep overlay for exact geometric curved accents */}
             <svg
@@ -112,19 +112,19 @@ export default function BusinessCardPreview() {
             >
               <path
                 d="M0,0 Q30,50 0,100 L0,100 Z"
-                fill="#7c3aed"
-                opacity="0.3"
+                fill="#0284c7"
+                opacity="0.35"
               />
               <path
                 d="M5,0 Q35,50 5,100 L0,100 L0,0 Z"
-                fill="#06b6d4"
-                opacity="0.25"
+                fill="#00c2cb"
+                opacity="0.3"
               />
             </svg>
 
             {/* Content on right side */}
             <div className="relative z-10 flex flex-col items-center">
-              <div className="w-18 h-18 rounded-full bg-gradient-to-tr from-purple-600 via-indigo-600 to-cyan-400 p-0.5 mb-2.5 shadow-lg overflow-hidden">
+              <div className="w-20 h-20 rounded-full bg-gradient-to-tr from-sky-500 via-teal-400 to-cyan-300 p-0.5 mb-2.5 shadow-lg overflow-hidden">
                 <img
                   src="/assets/aistudio/39e6a562-c982-4a40-a663-a2bcf499f81e_ff87c47f.png"
                   alt="Cathy Lawrence - Travel Agent"
@@ -135,12 +135,12 @@ export default function BusinessCardPreview() {
               <h4 className="text-xl md:text-2xl font-bold text-white tracking-tight font-outfit">
                 Cathy Lawrence
               </h4>
-              <p className="text-xs uppercase tracking-[0.25em] text-cyan-300 font-semibold mt-1">
+              <p className="text-xs uppercase tracking-[0.25em] text-teal-300 font-semibold mt-1">
                 Travel Agent
               </p>
               <div className="mt-4 pt-3 border-t border-slate-800/80 w-full text-center">
-                <span className="inline-flex items-center gap-1 text-[11px] text-purple-300 font-medium">
-                  <CheckCircle2 className="w-3 h-3 text-cyan-400" />
+                <span className="inline-flex items-center gap-1 text-[11px] text-sky-200 font-medium">
+                  <CheckCircle2 className="w-3 h-3 text-teal-300" />
                   21 Years Travel Experience
                 </span>
               </div>

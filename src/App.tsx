@@ -35,34 +35,34 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-800 flex flex-col font-sans selection:bg-purple-600 selection:text-white overflow-x-hidden w-full">
+    <div className="min-h-screen bg-white text-slate-900 flex flex-col font-sans selection:bg-sky-600 selection:text-white overflow-x-hidden w-full">
       {/* Primary Sticky Header */}
       <Navbar onOpenQuoteModal={handleOpenQuoteModal} />
 
       {/* Main Content Sections */}
       <main className="flex-1">
-        {/* Hero Section with Quick Trip Finder */}
+        {/* 1. Hero Section with Diving & Ocean Imagery and Trip Finder */}
         <Hero onOpenQuoteModal={(cat) => handleOpenQuoteModal('', cat)} />
 
-        {/* Holiday Specials & Packages */}
+        {/* 2. Holiday Specials & Packages Card Grid */}
         <HolidayPackages
           onSelectPackage={(pkg) => setDetailModalPackage(pkg)}
           onOpenQuoteModal={(pkgTitle) => handleOpenQuoteModal(pkgTitle)}
         />
 
-        {/* Products & Services Comprehensive Breakdown */}
+        {/* 3. Products & Services Comprehensive Breakdown */}
         <ServicesSection onOpenQuoteModal={handleOpenQuoteModal} />
 
-        {/* 21 Years of Travel Experience & Philosophy */}
-        <AboutExperience onOpenQuoteModal={() => handleOpenQuoteModal()} />
-
-        {/* Destinations Spotlight (Local SA & International) */}
+        {/* 4. Destinations Spotlight (Local SA & International) */}
         <DestinationsGallery onOpenQuoteModal={(dest) => handleOpenQuoteModal(dest)} />
 
-        {/* Customer Testimonials & Reviews */}
+        {/* 5. Why Choose Us (21 Years of Travel Experience & Personal Care) */}
+        <AboutExperience onOpenQuoteModal={() => handleOpenQuoteModal()} />
+
+        {/* 6. Customer Testimonials & Direct Reviews */}
         <TestimonialsSection />
 
-        {/* Office & Direct Contact Section */}
+        {/* 7. Office & Direct Contact Section */}
         <ContactSection />
       </main>
 
@@ -75,7 +75,7 @@ export default function App() {
       {/* Floating WhatsApp Action Button & Mobile Sticky Bar */}
       <FloatingWhatsApp onOpenQuoteModal={() => handleOpenQuoteModal()} />
 
-      {/* Proactive Rage Click Toast Notification */}
+      {/* Proactive Feedback / Help Toast */}
       <RageClickToast onOpenBugReport={() => setBugReportModalOpen(true)} />
 
       {/* Package Detail Modal */}
@@ -96,7 +96,7 @@ export default function App() {
         initialCategory={selectedCategoryForQuote}
       />
 
-      {/* Bug Report, Session Replay & UX Error Diagnostics Modal */}
+      {/* Bug Report & Support Diagnostics Modal */}
       <BugReportModal
         isOpen={bugReportModalOpen}
         onClose={() => setBugReportModalOpen(false)}
@@ -104,4 +104,3 @@ export default function App() {
     </div>
   );
 }
-

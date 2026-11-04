@@ -1,0 +1,30 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Default deny
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    function isValidReview(data) {
+      return (
+        ('fullName' in data && data.fullName is string && data.fullName.size() >= 2 && data.fullName.size() <= 150) ||
+        ('name' in data && data.name is string && data.name.size() >= 2 && data.name.size() <= 150)
+      ) &&
+      data.rating is number &&
+      data.rating >= 1 &&
+      data.rating <= 5 &&
+      (
+        ('feedback' in data && data.feedback is string && data.feedback.size() >= 5 && data.feedback.size() <= 2500) ||
+        ('reviewText' in data && data.reviewText is string && data.reviewText.size() >= 5 && data.reviewText.size() <= 2500)
+      );
+    }
+
+    match /reviews/{reviewId} {
+      allow read: if true;
+      allow create: if isValidReview(request.resource.data);
+      allow update, delete: if false;
+    }
+  }
+}

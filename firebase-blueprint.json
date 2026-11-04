@@ -1,0 +1,43 @@
+{
+  "entities": {
+    "Review": {
+      "title": "Review",
+      "description": "Client travel review and feedback for Infinity Club Holidays",
+      "type": "object",
+      "properties": {
+        "fullName": {
+          "type": "string",
+          "description": "Full name of the client"
+        },
+        "rating": {
+          "type": "number",
+          "description": "Star rating from 1 to 5"
+        },
+        "feedback": {
+          "type": "string",
+          "description": "Client feedback or testimonial text"
+        },
+        "destination": {
+          "type": "string",
+          "description": "Travel destination visited"
+        },
+        "holidayType": {
+          "type": "string",
+          "description": "Type of holiday package"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Firestore server timestamp when submitted"
+        }
+      },
+      "required": ["fullName", "rating", "feedback", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/reviews/{reviewId}": {
+      "entity": "Review",
+      "description": "Public collection of client testimonials and holiday reviews"
+    }
+  }
+}

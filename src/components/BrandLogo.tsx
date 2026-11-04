@@ -21,19 +21,15 @@ export default function BrandLogo({
 
   const holidaysColor = variant === 'dark' 
     ? 'text-white' 
-    : variant === 'light' 
-      ? 'text-slate-900' 
-      : 'text-slate-900 dark:text-white';
+    : 'text-slate-900';
 
   const taglineColor = variant === 'dark'
     ? 'text-slate-300'
-    : variant === 'light'
-      ? 'text-slate-600'
-      : 'text-slate-600 dark:text-slate-400';
+    : 'text-slate-500';
 
   return (
     <div className={`inline-flex flex-col items-center select-none ${className}`}>
-      {/* Precision Vector Emblem matching uploaded brand logo */}
+      {/* Precision Vector Emblem matching uploaded brand logo in vibrant travel blues and teals */}
       <svg
         width={dimensions.symbolWidth}
         height={dimensions.symbolHeight}
@@ -47,15 +43,15 @@ export default function BrandLogo({
           <linearGradient id="ringGradientLeft" x1="0%" y1="50%" x2="100%" y2="50%">
             <stop offset="0%" stopColor="#00c2cb" />
             <stop offset="60%" stopColor="#0284c7" />
-            <stop offset="100%" stopColor="#7c3aed" />
+            <stop offset="100%" stopColor="#0369a1" />
           </linearGradient>
           <linearGradient id="ringGradientRight" x1="0%" y1="50%" x2="100%" y2="50%">
-            <stop offset="0%" stopColor="#7c3aed" />
-            <stop offset="50%" stopColor="#8b5cf6" />
-            <stop offset="100%" stopColor="#06b6d4" />
+            <stop offset="0%" stopColor="#0369a1" />
+            <stop offset="50%" stopColor="#0284c7" />
+            <stop offset="100%" stopColor="#0d9488" />
           </linearGradient>
           <filter id="softGlow" x="-10%" y="-10%" width="120%" height="120%">
-            <feDropShadow dx="0" dy="1" stdDeviation="1.5" floodColor="#7c3aed" floodOpacity="0.25" />
+            <feDropShadow dx="0" dy="1" stdDeviation="1.5" floodColor="#0284c7" floodOpacity="0.25" />
           </filter>
         </defs>
 
@@ -85,7 +81,7 @@ export default function BrandLogo({
           filter="url(#softGlow)"
         />
         
-        {/* Subtle center overlay highlight for seamless 3D weave effect */}
+        {/* Center overlay highlight for seamless 3D weave effect */}
         <path
           d="M 80 14 A 38 28 0 0 1 98 14"
           stroke="#00c2cb"
@@ -95,10 +91,10 @@ export default function BrandLogo({
         />
       </svg>
 
-      {/* Typography strictly matching user logo */}
+      {/* Typography with vibrant travel blue and dark ocean slate */}
       <div className="text-center mt-1">
         <div className={`font-black tracking-wider uppercase leading-tight font-outfit ${dimensions.textClass}`}>
-          <span className="text-purple-600">INFINITY CLUB </span>
+          <span className="text-sky-600">INFINITY CLUB </span>
           <span className={holidaysColor}>HOLIDAYS</span>
         </div>
         {showTagline && (

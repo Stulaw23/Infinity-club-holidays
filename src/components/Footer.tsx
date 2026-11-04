@@ -1,4 +1,4 @@
-import { Phone, Mail, MapPin, MessageCircle, Heart, Facebook, Instagram, ShieldCheck } from 'lucide-react';
+import { Phone, Mail, MapPin, MessageCircle, Facebook, Instagram } from 'lucide-react';
 import BrandLogo from './BrandLogo';
 import { BUSINESS_INFO } from '../data/travelData';
 
@@ -13,22 +13,22 @@ export default function Footer({ onOpenQuoteModal, onOpenBugReport }: FooterProp
   )}`;
 
   return (
-    <footer className="bg-slate-950 text-slate-300 pt-16 pb-24 sm:pb-12 border-t border-slate-800">
+    <footer className="bg-slate-50 text-slate-700 pt-16 pb-24 sm:pb-12 border-t border-slate-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 pb-12 border-b border-slate-800/80">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 pb-12 border-b border-slate-200">
           
           {/* Brand & Mission (5 cols) */}
           <div className="lg:col-span-5 space-y-4">
             <div className="flex items-start">
-              <BrandLogo variant="dark" size="md" showTagline={true} />
+              <BrandLogo size="md" showTagline={true} />
             </div>
 
-            <p className="text-xs sm:text-sm text-slate-400 leading-relaxed max-w-sm mt-3">
-              Professional travel planning and booking for unforgettable local South African and international holidays. Backed by <strong>21 years of industry experience</strong>, we help clients take the stress out of travel from start to finish.
+            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-sm mt-3">
+              Professional travel planning and booking for unforgettable local South African and international holidays. Backed by <strong className="text-slate-900">21 years of industry experience</strong>, we help clients take the stress out of travel from start to finish.
             </p>
 
-            <div className="pt-2 text-xs text-slate-400 italic">
+            <div className="pt-2 text-xs text-slate-500 italic">
               &ldquo;For all your leisure and corporate business needs&rdquo;
             </div>
 
@@ -38,7 +38,7 @@ export default function Footer({ onOpenQuoteModal, onOpenBugReport }: FooterProp
                 href={BUSINESS_INFO.social.facebook}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-9 h-9 rounded-xl bg-slate-900 hover:bg-purple-600 text-slate-300 hover:text-white flex items-center justify-center transition-colors border border-slate-800"
+                className="w-9 h-9 rounded-xl bg-white hover:bg-sky-600 text-slate-600 hover:text-white flex items-center justify-center transition-colors border border-slate-200 shadow-2xs"
                 aria-label="Facebook Page"
               >
                 <Facebook className="w-4 h-4" />
@@ -48,7 +48,7 @@ export default function Footer({ onOpenQuoteModal, onOpenBugReport }: FooterProp
                 href={BUSINESS_INFO.social.instagram}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-9 h-9 rounded-xl bg-slate-900 hover:bg-purple-600 text-slate-300 hover:text-white flex items-center justify-center transition-colors border border-slate-800"
+                className="w-9 h-9 rounded-xl bg-white hover:bg-teal-600 text-slate-600 hover:text-white flex items-center justify-center transition-colors border border-slate-200 shadow-2xs"
                 aria-label="Instagram Page"
               >
                 <Instagram className="w-4 h-4" />
@@ -58,7 +58,7 @@ export default function Footer({ onOpenQuoteModal, onOpenBugReport }: FooterProp
                 href={whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-9 h-9 rounded-xl bg-slate-900 hover:bg-emerald-600 text-slate-300 hover:text-white flex items-center justify-center transition-colors border border-slate-800"
+                className="w-9 h-9 rounded-xl bg-white hover:bg-emerald-600 text-slate-600 hover:text-white flex items-center justify-center transition-colors border border-slate-200 shadow-2xs"
                 aria-label="WhatsApp Direct"
               >
                 <MessageCircle className="w-4 h-4" />
@@ -66,45 +66,45 @@ export default function Footer({ onOpenQuoteModal, onOpenBugReport }: FooterProp
             </div>
           </div>
 
-          {/* Quick Navigation (2 cols) */}
+          {/* Quick Navigation (3 cols) */}
           <div className="lg:col-span-3 space-y-3">
-            <h4 className="text-xs uppercase tracking-wider font-bold text-white font-outfit">
-              Explore & Services
+            <h4 className="text-xs uppercase tracking-wider font-bold text-slate-900 font-outfit">
+              Explore Sections
             </h4>
-            <ul className="space-y-2 text-xs text-slate-400">
+            <ul className="space-y-2 text-xs text-slate-600">
               <li>
-                <a href="#packages" className="hover:text-purple-400 transition-colors">
-                  Holiday Specials & Packages
+                <a href="#hero" className="hover:text-sky-600 transition-colors">
+                  Home &amp; Hero
                 </a>
               </li>
               <li>
-                <a href="#services" className="hover:text-purple-400 transition-colors">
-                  Flights & Hotel Bookings
+                <a href="#packages" className="hover:text-sky-600 transition-colors">
+                  Holiday Specials &amp; Packages
                 </a>
               </li>
               <li>
-                <a href="#services" className="hover:text-purple-400 transition-colors">
-                  Ocean & River Cruises
+                <a href="#services" className="hover:text-sky-600 transition-colors">
+                  Our Products &amp; Services
                 </a>
               </li>
               <li>
-                <a href="#services" className="hover:text-purple-400 transition-colors">
-                  Tailor-Made Itineraries
+                <a href="#destinations" className="hover:text-sky-600 transition-colors">
+                  Top Destinations
                 </a>
               </li>
               <li>
-                <a href="#destinations" className="hover:text-purple-400 transition-colors">
-                  Local South Africa Safaris
+                <a href="#experience" className="hover:text-sky-600 transition-colors">
+                  Why Choose Us (21 Years)
                 </a>
               </li>
               <li>
-                <a href="#destinations" className="hover:text-purple-400 transition-colors">
-                  Island Getaways (Mauritius & Zanzibar)
+                <a href="#testimonials" className="hover:text-sky-600 transition-colors">
+                  Guest Reviews &amp; Feedback
                 </a>
               </li>
               <li>
-                <a href="#experience" className="hover:text-purple-400 transition-colors">
-                  21 Years Travel Experience
+                <a href="#contact" className="hover:text-sky-600 transition-colors">
+                  Contact &amp; Inquiries
                 </a>
               </li>
             </ul>
@@ -112,27 +112,27 @@ export default function Footer({ onOpenQuoteModal, onOpenBugReport }: FooterProp
 
           {/* Contact Details (4 cols) */}
           <div className="lg:col-span-4 space-y-3">
-            <h4 className="text-xs uppercase tracking-wider font-bold text-white font-outfit">
+            <h4 className="text-xs uppercase tracking-wider font-bold text-slate-900 font-outfit">
               Infinity Club Contact
             </h4>
-            <div className="space-y-2.5 text-xs text-slate-400">
+            <div className="space-y-2.5 text-xs text-slate-600">
               <div className="flex items-start gap-2.5">
-                <MapPin className="w-4 h-4 text-cyan-400 shrink-0 mt-0.5" />
+                <MapPin className="w-4 h-4 text-teal-600 shrink-0 mt-0.5" />
                 <span>
                   {BUSINESS_INFO.address.street}, {BUSINESS_INFO.address.suburb}, {BUSINESS_INFO.address.city}, {BUSINESS_INFO.address.postalCode}
                 </span>
               </div>
 
               <div className="flex items-center gap-2.5">
-                <Phone className="w-4 h-4 text-purple-400 shrink-0" />
-                <a href={`tel:${BUSINESS_INFO.phoneTel}`} className="hover:text-white transition-colors">
+                <Phone className="w-4 h-4 text-sky-600 shrink-0" />
+                <a href={`tel:${BUSINESS_INFO.phoneTel}`} className="hover:text-sky-600 transition-colors font-medium">
                   {BUSINESS_INFO.phoneFormatted}
                 </a>
               </div>
 
               <div className="flex items-center gap-2.5">
-                <Mail className="w-4 h-4 text-cyan-400 shrink-0" />
-                <a href={`mailto:${BUSINESS_INFO.email}`} className="hover:text-white transition-colors break-all">
+                <Mail className="w-4 h-4 text-teal-600 shrink-0" />
+                <a href={`mailto:${BUSINESS_INFO.email}`} className="hover:text-sky-600 transition-colors break-all">
                   {BUSINESS_INFO.email}
                 </a>
               </div>
@@ -144,7 +144,7 @@ export default function Footer({ onOpenQuoteModal, onOpenBugReport }: FooterProp
               <div className="pt-2">
                 <button
                   onClick={onOpenQuoteModal}
-                  className="w-full py-2.5 px-4 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs uppercase tracking-wider transition-all shadow-md"
+                  className="w-full py-2.5 px-4 rounded-xl bg-sky-600 hover:bg-sky-700 text-white font-bold text-xs uppercase tracking-wider transition-all shadow-sm cursor-pointer"
                 >
                   Plan My Holiday / Get Quote
                 </button>
@@ -157,33 +157,32 @@ export default function Footer({ onOpenQuoteModal, onOpenBugReport }: FooterProp
         {/* Bottom Copyright & Motto */}
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-4">
           <div className="flex items-center gap-2">
-            <span>🌍 <strong>INFINITY CLUB HOLIDAYS</strong> – Endless Travel Possibilities</span>
+            <span>🌍 <strong className="text-slate-700">INFINITY CLUB HOLIDAYS</strong> – Endless Travel Possibilities</span>
           </div>
 
-          <div className="flex items-center gap-4 text-slate-400">
-            <span>Travel Agent: <strong>Cathy Lawrence</strong> (21 Years Experience)</span>
+          <div className="flex items-center gap-4 text-slate-500">
+            <span>Travel Agent: <strong className="text-slate-700">Cathy Lawrence</strong> (21 Years Experience)</span>
             {onOpenBugReport && (
               <div className="flex items-center gap-2.5">
                 <button
                   type="button"
                   id="footer-traveler-support-btn"
                   onClick={onOpenBugReport}
-                  className="text-slate-400 hover:text-purple-300 underline transition-colors cursor-pointer text-[11px]"
+                  className="text-slate-500 hover:text-sky-600 underline transition-colors cursor-pointer text-[11px]"
                 >
                   Need Help / Support
                 </button>
-                <span className="text-slate-700">·</span>
+                <span className="text-slate-300">·</span>
                 <button
                   type="button"
                   id="footer-agency-console-btn"
                   onClick={() => {
-                    // Quick agency shortcut: switches dev mode on
                     if (typeof window !== 'undefined') {
                       window.location.hash = '#admin';
                     }
                     onOpenBugReport();
                   }}
-                  className="text-slate-600 hover:text-purple-400 text-[10px] transition-colors cursor-pointer flex items-center gap-0.5"
+                  className="text-slate-400 hover:text-sky-600 text-[10px] transition-colors cursor-pointer flex items-center gap-0.5"
                   title="Agency Diagnostic Console"
                 >
                   <span>Agency</span>
